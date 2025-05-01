@@ -48,51 +48,44 @@ graph LR
 ## 4. Diagrama de Deployment
 
 ```mermaid
-flowchart TB
-  subgraph Dev [Development (localhost)]
+graph TB
+  subgraph "Dev (localhost)"
     direction TB
     Compose["Docker Compose"]
-    Compose --> BE_dev[Backend]
-    Compose --> FE_dev[Frontend]
-    Compose --> DB_dev[MySQL]
-    Compose --> Cache_dev[Redis]
+    Compose --> BE_dev["Backend"]
+    Compose --> FE_dev["Frontend"]
+    Compose --> DB_dev["MySQL"]
+    Compose --> Cache_dev["Redis"]
   end
 
-  subgraph Stg [Staging (k8s / VM)]
+  subgraph "Stg (k8s / VM)"
     direction TB
-    BE_stg[Backend Pod]
-    FE_stg[Frontend Pod]
-    DB_stg[MySQL StatefulSet]
-    Cache_stg[Redis Deployment]
-    LB_stg[Load Balancer]
+    LB_stg["Load Balancer"]
+    BE_stg["Backend Pod"]
+    FE_stg["Frontend Pod"]
+    DB_stg["MySQL StatefulSet"]
+    Cache_stg["Redis Deployment"]
+    LB_stg --> BE_stg
+    LB_stg --> FE_stg
+    BE_stg --> DB_stg
+    BE_stg --> Cache_stg
   end
 
-  subgraph Prod [Production (k8s / Cloud)]
+  subgraph "Prod (k8s / Cloud)"
     direction TB
-    LB_prd[Load Balancer]
-    BE_prd[Backend ReplicaSet]
-    FE_prd[Frontend ReplicaSet]
-    DB_prd[MySQL Cluster]
-    Cache_prd[Redis Cluster]
-    Mon[Monitoring / Logs]
+    LB_prd["Load Balancer"]
+    BE_prd["Backend ReplicaSet"]
+    FE_prd["Frontend ReplicaSet"]
+    DB_prd["MySQL Cluster"]
+    Cache_prd["Redis Cluster"]
+    Mon["Monitoring / Logs"]
+    LB_prd --> BE_prd
+    LB_prd --> FE_prd
+    BE_prd --> DB_prd
+    BE_prd --> Cache_prd
+    Mon --> BE_prd
+    Mon --> FE_prd
+    Mon --> DB_prd
+    Mon --> Cache_prd
   end
-
-  Compose -->|“local”| BE_dev
-  Compose --> FE_dev
-  Compose --> DB_dev
-  Compose --> Cache_dev
-
-  LB_stg --> BE_stg
-  LB_stg --> FE_stg
-  BE_stg --> DB_stg
-  BE_stg --> Cache_stg
-
-  LB_prd --> BE_prd
-  LB_prd --> FE_prd
-  BE_prd --> DB_prd
-  BE_prd --> Cache_prd
-  Mon --> BE_prd
-  Mon --> FE_prd
-  Mon --> DB_prd
-  Mon --> Cache_prd
 ```
