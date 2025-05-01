@@ -1,25 +1,15 @@
-# Use a imagem oficial Python 3.11 slim como base
+# Dockerfile.backend
 FROM python:3.11-slim
-
-# Defina diretório de trabalho dentro do container
 WORKDIR /app
 
-# Instale dependências do sistema necessárias (se houver)
 RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc libpq-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Copie só a lista de dependências primeiro para aproveitar cache do Docker
 COPY requirements.txt .
-
-# Instale as dependências Python
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copie todo o código da aplicação
-COPY . .
-
-# Exponha a porta que o FastAPI usará
+COPY app/ ./app    # supondo que seu código Python esteja em app/
 EXPOSE 8000
 
-# Comando padrão para rodar a aplicação em modo dev
 CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]

@@ -27,6 +27,11 @@ services:
       - .env.dev
     ports:
       - "3000:5173"
+    depends_on:
+       - backend
+    volumes:
+      - ./frontend:/usr/src/app    # monta seu código no container para hot-reload
+      - /usr/src/app/node_modules  # preserva node_modules do container
 
   mysql:
     image: mysql:8.0
