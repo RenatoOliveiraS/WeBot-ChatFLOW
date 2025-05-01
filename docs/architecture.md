@@ -28,7 +28,7 @@ Este documento descreve a arquitetura dos três ambientes do projeto WeBot-ChatF
 
 ## 3. Diagrama de Componentes
 
-```
+```mermaid
 graph LR
   subgraph App
     FE["Frontend\n(React/Vite)"]
