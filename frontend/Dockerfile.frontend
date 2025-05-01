@@ -1,31 +1,18 @@
-# Build stage usando Node para compilar o frontend
-FROM node:18-alpine AS builder
+# Dockerfile.frontend
 
-WORKDIR /usr/src/app
-
-# Copia package.json e package-lock.json para o cache
-COPY frontend/package*.json ./
-
-# Instala as dependências Node
-RUN npm install
-
-# Copia o restante do código e gera o build de produção (se quiser)
-COPY frontend/ .
-
-# Se quiser gerar build estático (opcional), descomente:
-# RUN npm run build
-
-# Runtime stage (dev) – roda o Vite diretamente
+# 1) Base image
 FROM node:18-alpine
 
+# 2) Pasta de trabalho
 WORKDIR /usr/src/app
 
-# Copia só o que precisa do builder
-COPY --from=builder /usr/src/app/node_modules ./node_modules
-COPY --from=builder /usr/src/app ./
+# 3) Copia package.json e instala dependências
+COPY frontend/package*.json ./
+RUN npm install
 
-# Exponha a porta do Vite (default 5173)
+# 4) Monta o código-fonte
+COPY frontend/ .
+
+# 5) Expõe a porta do Vite (5173) e inicia o dev server
 EXPOSE 5173
-
-# Comando padrão para iniciar o servidor de desenvolvimento
 CMD ["npm", "run", "dev"]
