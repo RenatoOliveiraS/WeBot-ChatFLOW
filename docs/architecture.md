@@ -28,17 +28,20 @@ Este documento descreve a arquitetura dos três ambientes do projeto WeBot-ChatF
 
 ## 3. Diagrama de Componentes
 
-```mermaid
+```
 graph LR
   subgraph App
-    FE[Frontend<br/>(React/Vite)]
-    BE[Backend<br/>(FastAPI)]
+    FE["Frontend\n(React/Vite)"]
+    BE["Backend\n(FastAPI)"]
   end
+
   FE -->|REST / WebSocket| BE
   BE --> MySQL
   BE --> Redis
-  click MySQL href "https://hub.docker.com/_/mysql" "MySQL Docker"
-  click Redis href "https://hub.docker.com/_/redis" "Redis Docker"
+
+  click MySQL "https://hub.docker.com/_/mysql" "MySQL Docker"
+  click Redis "https://hub.docker.com/_/redis" "Redis Docker"
+
 ```
 ---
 
