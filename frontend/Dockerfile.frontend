@@ -1,0 +1,31 @@
+# Build stage usando Node para compilar o frontend
+FROM node:18-alpine AS builder
+
+WORKDIR /usr/src/app
+
+# Copia package.json e package-lock.json para o cache
+COPY frontend/package*.json ./
+
+# Instala as dependências Node
+RUN npm install
+
+# Copia o restante do código e gera o build de produção (se quiser)
+COPY frontend/ .
+
+# Se quiser gerar build estático (opcional), descomente:
+# RUN npm run build
+
+# Runtime stage (dev) – roda o Vite diretamente
+FROM node:18-alpine
+
+WORKDIR /usr/src/app
+
+# Copia só o que precisa do builder
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app ./
+
+# Exponha a porta do Vite (default 5173)
+EXPOSE 5173
+
+# Comando padrão para iniciar o servidor de desenvolvimento
+CMD ["npm", "run", "dev"]
