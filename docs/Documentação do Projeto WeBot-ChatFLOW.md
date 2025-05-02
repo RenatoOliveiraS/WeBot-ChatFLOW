@@ -44,7 +44,7 @@
 
   * Interface web responsiva (React/TypeScript)
 
-  * Persistência em MySQL, cache e filas em Redis
+  * Persistência em Postgres, cache e filas em Redis
 
   * Implantação via Docker e CI/CD
 
@@ -78,7 +78,7 @@ Adotamos a **Clean Architecture**, organizando o sistema em quatro camadas conc�
 
 4. **Infrastructure & UI**
 
-   * Implementações concretas de repositórios (MySQL, Redis)
+   * Implementações concretas de repositórios (Postgres, Redis)
 
    * Frameworks e clientes (FastAPI, WebSocket, OAuth2/JWT)
 
@@ -110,7 +110,7 @@ graph LR
 
   subgraph 4.Infrastructure & UI  
     API\[app/api \+ core\]  
-    INFRA\[DB(MySQL), Redis, OAuth2/JWT, Docker, CI/CD\]  
+    INFRA\[DB(Postgres), Redis, OAuth2/JWT, Docker, CI/CD\]  
   end
 
   D \--\> U  
@@ -162,7 +162,7 @@ WeBot-ChatFLOW/
 │   │   └── channel\_dispatcher.py       \# movido de services → pertence à orquestração  
 │   ├── repositories/                   \# Interface Adapters – contratos e implementações  
 │   │   ├── interfaces/                 \# → contratos (ports)  
-│   │   └── implementations/            \# → MySQL, Redis, etc.  
+│   │   └── implementations/            \# → Postgres, Redis, etc.  
 │   ├── adapters/                       \# Interface Adapters – canais externos  
 │   │   ├── email\_channel.py  
 │   │   ├── whatsapp\_channel.py  
@@ -188,7 +188,7 @@ WeBot-ChatFLOW/
 | API / WebSocket | FastAPI, starlette-websockets |
 | Domínio | Pydantic, enums |
 | Casos de Uso | Python puro, interfaces (ports) |
-| Repositórios | SQLAlchemy (MySQL), aioredis |
+| Repositórios | SQLAlchemy (Postgres), aioredis |
 | Mensageria / Eventos | Redis Streams / Celery |
 | Autenticação / Autorização | OAuth2 (Keycloak?), JWT, PyJWT |
 | Notificações | WebSocket, push notifications |
@@ -262,7 +262,7 @@ WeBot-ChatFLOW/
 
    * `Dockerfile` separados para front-end e back-end.
 
-   * `docker-compose.yml` orquestra serviços (app, MySQL, Redis).
+   * `docker-compose.yml` orquestra serviços (app, Postgres, Redis).
 
 2. **Migrations:**
 
