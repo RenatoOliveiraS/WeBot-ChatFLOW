@@ -11,3 +11,6 @@ dist/
 # Docker
 *.log
 docker-compose.override.yml
+
+
+venv/
