@@ -3,8 +3,8 @@ version: '3.8'
 services:
   backend:
     build:
-      context: ./backend/app
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: backend/app/Dockerfile
     image: webot-backend:dev
     env_file:
       - ./.env.dev
@@ -23,7 +23,7 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: Dockerfile.frontend
+      dockerfile: frontend/Dockerfile
     image: webot-frontend:dev
     env_file:
       - ./.env.dev
