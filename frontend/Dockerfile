@@ -1,7 +1,7 @@
 # Dockerfile.frontend
 
 # 1) Base image
-FROM node:18-alpine
+FROM node:22-alpine
 
 # 2) Pasta de trabalho
 WORKDIR /usr/src/app
