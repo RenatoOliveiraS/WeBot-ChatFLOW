@@ -3,7 +3,8 @@
       "docker:up": "docker-compose up -d",
       "docker:down": "docker-compose down",
       "docker:logs": "docker-compose logs -f",
-      "docker:restart": "npm run docker:down && npm run docker:up"
+      "docker:restart": "npm run docker:down && npm run docker:up",
+      "docker:migrate": "docker-compose exec backend alembic upgrade head"
     }
   }
   
