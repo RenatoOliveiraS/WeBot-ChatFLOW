@@ -62,7 +62,7 @@ Esse script executa:
 - Instalação de dependências Python (`pip install`)
 - Instalação de dependências frontend (`npm install`)
 - Download das imagens Docker (`docker-compose pull`)
-
+```
 
 ---
 
