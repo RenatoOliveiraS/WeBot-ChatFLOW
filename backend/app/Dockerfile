@@ -9,7 +9,8 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 # 2) Dependências Python
-COPY ./requirements.txt .
+COPY backend/app/requirements.txt .
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 3) Código da aplicação — aqui você vai “desempacotar” o app direto em /app
