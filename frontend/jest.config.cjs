@@ -1,9 +1,7 @@
+// frontend/jest.config.cjs
 module.exports = {
-    testEnvironment: "jsdom",
-    setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"],
-    moduleFileExtensions: ["js","jsx","ts","tsx"],
-    transform: {
-      "^.+\\.(js|jsx|ts|tsx)$": "babel-jest"
-    }
-  };
-  
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/src/setupTests.cjs'],
+  moduleFileExtensions: ['js','jsx','ts','tsx','cjs'],
+  transform: {}
+}
