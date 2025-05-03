@@ -51,7 +51,7 @@ Você pode instalar todas as dependências e preparar o ambiente com um único c
 ```powershell
 ./scripts/setup.ps1
 ```
-
+```
 ### 🐧 Linux / macOS (ou Git Bash no Windows)
 
 ```bash
@@ -62,7 +62,7 @@ Esse script executa:
 - Instalação de dependências Python (`pip install`)
 - Instalação de dependências frontend (`npm install`)
 - Download das imagens Docker (`docker-compose pull`)
-```
+
 
 ---
 
