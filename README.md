@@ -42,10 +42,27 @@ source .venv/bin/activate
 # Windows PowerShell
 .venv\Scripts\Activate.ps1
 
-# 3) Instale as dependências do backend
-pip install --upgrade pip
-pip install -r backend/requirements.txt
+# 3) Instale as dependências
+
+Você pode instalar todas as dependências e preparar o ambiente com um único comando, de acordo com seu sistema operacional:
+
+### 💻 Windows (PowerShell)
+
+```powershell
+./scripts/setup.ps1
 ```
+
+### 🐧 Linux / macOS (ou Git Bash no Windows)
+
+```bash
+bash scripts/setup.sh
+```
+
+Esse script executa:
+- Instalação de dependências Python (`pip install`)
+- Instalação de dependências frontend (`npm install`)
+- Download das imagens Docker (`docker-compose pull`)
+
 
 ---
 
