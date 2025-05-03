@@ -54,11 +54,13 @@ pip install -r backend/requirements.txt
 _Usando npm scripts (project root):_
 
 ```bash
+
 npm run docker:up       # sobe todos os containers em background
 npm run docker:logs     # exibe logs em tempo real
 npm run docker:down     # derruba containers, redes e volumes
 npm run docker:restart  # teardown + provision
 npm run docker:migrate   # docker-compose exec backend alembic upgrade head
+
 ```
 
 ---
