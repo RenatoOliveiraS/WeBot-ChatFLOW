@@ -30,18 +30,23 @@ Repositório de infraestrutura e código do **WeBot-ChatFLOW**, com frontend em 
 
 ## Clone e Setup
 
-```bash
+
 # 1) Clone o repositório
 git clone https://github.com/RenatoOliveiraS/WeBot-ChatFLOW.git
 cd WeBot-ChatFLOW
 
 # 2) Crie e ative um ambiente virtual na raiz
+```bash
 python -m venv .venv
+```
 # macOS/Linux
+```bash
 source .venv/bin/activate
+```
 # Windows PowerShell
+```bash
 .venv\Scripts\Activate.ps1
-
+```
 # 3) Instale as dependências
 
 Você pode instalar todas as dependências e preparar o ambiente com um único comando, de acordo com seu sistema operacional:
@@ -51,7 +56,7 @@ Você pode instalar todas as dependências e preparar o ambiente com um único c
 ```powershell
 ./scripts/setup.ps1
 ```
-```
+
 ### 🐧 Linux / macOS (ou Git Bash no Windows)
 
 ```bash
