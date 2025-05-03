@@ -12,4 +12,6 @@ Repositório de infraestrutura e código do projeto WeBot-ChatFLOW.
 - `npm run docker:down`     – derruba containers, redes e volumes  
 - `npm run docker:restart`  – faz teardown + provision  
 
+# trigger CI
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
