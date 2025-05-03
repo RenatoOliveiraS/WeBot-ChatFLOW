@@ -102,3 +102,74 @@ chore/docs-readme
 
 ---
 
+# 🧪 Utilitários de Testes – Pytest (backend) & Jest (frontend)
+
+---
+
+## ✅ Objetivo
+
+Executar testes automatizados para validação básica (smoke tests) tanto no backend quanto no frontend.
+
+---
+
+## 🐍 Backend – Pytest (Python)
+
+### 🔧 Requisitos
+
+- `pytest` listado no `requirements.txt`:
+
+```txt
+pytest
+```
+
+### ▶️ Rodar os testes:
+
+```bash
+docker-compose exec backend pytest
+```
+
+### 💬 Resultado esperado:
+
+Exemplo:
+
+```
+collected 1 item
+tests/test_placeholder.py .  [100%]
+1 passed in 0.25s
+```
+
+### 🔍 Opções úteis:
+
+- Mostrar erros completos e ignorar warnings:
+```bash
+docker-compose exec backend pytest -v --disable-warnings
+```
+
+---
+
+## ⚛️ Frontend – Jest (JavaScript/Node)
+
+### 🔧 Requisitos
+
+- Jest já instalado no projeto (`package.json`)
+- Pasta típica de testes: `src/__tests__/`
+
+### ▶️ Rodar os testes:
+
+```bash
+cd frontend
+npm install   # se necessário
+npm run test
+```
+
+### 💬 Resultado esperado:
+
+Exemplo:
+
+```
+Test Suites: 1 passed, 1 total
+Tests:       1 passed, 1 total
+Snapshots:   0 total
+```
+
+---
