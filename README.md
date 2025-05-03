@@ -32,9 +32,10 @@ Repositório de infraestrutura e código do **WeBot-ChatFLOW**, com frontend em 
 
 
 ## 1) Clone o repositório
+```bash
 git clone https://github.com/RenatoOliveiraS/WeBot-ChatFLOW.git
 cd WeBot-ChatFLOW
-
+```
 ## 2) Crie e ative um ambiente virtual na raiz
 ```bash
 python -m venv .venv
