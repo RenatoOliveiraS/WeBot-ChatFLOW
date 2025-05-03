@@ -85,6 +85,15 @@ jobs:
         run: |
           cd frontend
           npm test -- --ci --reporters=default
+      - name: Smoke Test Frontend
+        run: |
+          cd frontend
+          npm ci
+          npm run build
+          npm install --no-save serve
+          npx serve -s dist -l 5000 &
+          sleep 5
+          curl -fs http://localhost:5000 || (echo "Smoke test falhou" && exit 1)
 
   build-images:
     name: Build Docker Images

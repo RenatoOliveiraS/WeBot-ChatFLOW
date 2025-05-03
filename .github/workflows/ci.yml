@@ -2,34 +2,62 @@ name: CI
 
 on:
   push:
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
-  tests:
-    name: Run tests (frontend & backend)
+  frontend:
+    name: Build Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout do repositório
+        uses: actions/checkout@v3
+
+      - name: Cache do npm
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Instalar dependências
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Validar build
+        run: |
+          cd frontend
+          npm run build
+
+  backend:
+    name: Test Backend
+    needs: frontend
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
 
-      # Frontend (React + Vite)
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install & build frontend
-        run: |
-          cd frontend
-          npm install
-          npm run build
-
-      # Backend (Python)
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install & test backend
+
+      - name: Instalar dependências
         run: |
           cd backend
           pip install -r requirements.txt
+
+      - name: Executar testes
+        run: |
+          cd backend
           pytest --maxfail=1 --disable-warnings -q
