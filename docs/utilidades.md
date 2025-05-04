@@ -224,3 +224,6 @@ Snapshots:   0 total
     hooks:
       - id: isort
 ---
+
+
+alembic upgrade head
