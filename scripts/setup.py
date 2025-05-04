@@ -73,7 +73,7 @@ def main():
     npm_exe = shutil.which("npm") or shutil.which("npm.cmd")
     if not npm_exe:
         print(
-            "❌ npm não encontrado. Instale o Node.js e verifique se o npm está no PATH.",
+            "❌npm não encontrado.Instale o Node.js e verifique se o npm está no PATH.",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -101,21 +101,18 @@ def main():
     # 6.1) Certifica-se de que o CLI do Docker existe
     docker_bin = shutil.which("docker")
     if not docker_bin:
-        print(
-            "❌ Não encontrei o comando 'docker'. Instale o Docker Desktop e verifique se o 'docker' está no PATH.",
-            file=sys.stderr,
-        )
+        prefix = "❌ Não encontrei o comando 'docker'."
+        suffix = "Instale o Docker Desktop e verifique se o 'docker' está no PATH."
+        print(prefix, suffix, file=sys.stderr)
         sys.exit(1)
 
     # 6.2) Testa se o engine está up
     info = subprocess.run([docker_bin, "info"], capture_output=True, text=True)
     if info.returncode != 0:
-        print(
-            "❌ Não foi possível conectar ao Docker Engine. Verifique se o Docker Desktop ou o serviço Docker está em execução.",
-            file=sys.stderr,
-        )
-        # opcional: exibe erro original
-        print(info.stderr, file=sys.stderr)
+
+        prefix = "❌ Não foi possível conectar ao Docker Engine."
+        suffix = "Verifique se o Docker Desktop ou o serviço Docker está em execução."
+        print(prefix, suffix, file=sys.stderr)
         sys.exit(1)
 
     # 6.3) Decide entre docker-compose vs docker compose
@@ -134,11 +131,12 @@ def main():
     # 2) Build dos serviços que têm build:
     res = subprocess.run(compose_cmd + ["build"])
     if res.returncode != 0:
-        print(f"❌ Falha ao construir imagens locais.", file=sys.stderr)
-        sys.exit(res.returncode)
+        prefix = "❌ Falha ao construir imagens locais. , file=sys.stderr"
+        print(prefix, file=sys.stderr)
+        sys.exit(1)
 
     # compila serviços que precisam de build
-    print("🏗️  Construindo serviços locais…")
+    print("🏗️ Construindo serviços locais…")
     res = subprocess.run(compose_cmd + ["build"])
     if res.returncode != 0:
         print(
