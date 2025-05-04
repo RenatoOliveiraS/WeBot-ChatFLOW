@@ -50,19 +50,14 @@ source .venv/bin/activate
 ```
 ## 3) Instale as dependências
 
-Você pode instalar todas as dependências e preparar o ambiente com um único comando, de acordo com seu sistema operacional:
+Você pode instalar todas as dependências, gerar o arquivo `.env`, validar suas variáveis e preparar o Docker com um único comando:
 
 ### 💻 Windows (PowerShell)
 
 ```powershell
-./scripts/setup.ps1
+python scripts/setup.py
 ```
 
-### 🐧 Linux / macOS (ou Git Bash no Windows)
-
-```bash
-bash scripts/setup.sh
-```
 
 Esse script executa:
 - Instalação de dependências Python (`pip install`)
