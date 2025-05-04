@@ -1,13 +1,12 @@
 import os
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config, pool
+import models
 from alembic import context
-
 # IMPORTE AQUI O metadata do seu ORM
 # Exemplo: se seu Base estiver em backend/app/models.py
 from core.database import Base  # ← altere para o caminho real do seu projeto
-import models
+from sqlalchemy import engine_from_config, pool
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

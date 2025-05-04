@@ -173,3 +173,43 @@ Snapshots:   0 total
 ```
 
 ---
+
+
+### Black (Python code formatter)
+
+- **O que é**: ferramenta de formatação de código Python que aplica opiniões consistentes de estilo (PEP 8), evitando discussões de formatação no code review.  
+- **Como entrou no projeto**: está listado em `backend/app/requirements.txt` como `black==25.1.0`. Ou seja, ao rodar `pip install -r backend/app/requirements.txt`, o Black foi instalado junto com todas as dependências do backend.  
+- **Uso**:
+  - Para formatar tudo de uma vez:  
+    ```bash
+    black .
+    ```
+  - Para só checar sem modificar (por exemplo no CI):  
+    ```bash
+    black --check .
+    ```
+- **Integração recomendada**: configure um pre-commit hook com o [pre-commit](https://pre-commit.com/), assim o Black formata automaticamente antes de cada commit.
+
+---
+
+### isort (Python Import Sorter)
+
+- **O que é**: ferramenta que ordena e formata automaticamente os imports em arquivos Python, garantindo consistência e evitando conflitos de estilo no CI.  
+- **Como entrou no projeto**: está configurado no workflow do CI para rodar `isort --check .` no diretório `backend/app`, e falhar caso encontre imports fora de ordem.  
+- **Uso**:
+  - Para ordenar todos os imports no projeto:
+    ```bash
+    isort .
+    ```
+  - Para checar sem modificar (por exemplo no CI):
+    ```bash
+    isort --check .
+    ```
+- **Integração recomendada**: adicione ao `pre-commit` com:
+  ```yaml
+  repos:
+  - repo: https://github.com/PyCQA/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+---
