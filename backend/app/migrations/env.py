@@ -1,7 +1,7 @@
 import os
 from logging.config import fileConfig
 
-import models
+import models  # noqa: F401
 from alembic import context
 from core.database import Base
 from sqlalchemy import engine_from_config, pool

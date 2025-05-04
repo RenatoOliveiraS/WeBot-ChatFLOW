@@ -83,6 +83,17 @@ git switch -c nome-da-branch
 git switch nome-da-branch
 ```
 
+### Excluir a branch local:
+```bash
+git branch -d nome-da-branch
+```
+
+### Excluir a branch GitHub:
+```bash
+git push origin --delete nome-da-branch
+```
+
+
 ---
 
 ## 🧠 Boas práticas de nomeação de branches

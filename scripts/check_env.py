@@ -12,9 +12,9 @@ def main():
 
     # 0) Falha se não houver .env
     if not os.path.isfile(env_path):
-        print(
-            f"❌ Erro: arquivo(.env) de variáveis de ambiente não encontrado na raiz do projeto"
-        )
+        prefix = "Erro: arquivo(.env) de variáveis de "
+        suffix = "ambiente não encontrado na raiz do projeto"
+        print(prefix, suffix)
         sys.exit(1)
 
     # 1) Carrega .env sobrescrevendo tudo
@@ -37,10 +37,8 @@ def main():
             missing.append(k)
 
     if missing:
-        print(
-            f"❌ Variáveis de ambiente ausentes ou sem valor: " + ", ".join(missing),
-            file=sys.stderr,
-        )
+        msg = "❌ Variáveis de ambiente ausentes ou sem valor: " + ", ".join(missing)
+        print(msg, file=sys.stderr)
         sys.exit(1)
 
     print("✅ Todas as variáveis de ambiente estão definidas e preenchidas.")
