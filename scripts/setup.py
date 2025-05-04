@@ -6,12 +6,14 @@ import venv
 import secrets
 import shutil
 
+
 def run(cmd, cwd=None):
     print(f"➡️  {' '.join(cmd)}")
     res = subprocess.run(cmd, cwd=cwd)
     if res.returncode != 0:
         print(f"❌ Falha ao executar: {' '.join(cmd)}", file=sys.stderr)
         sys.exit(res.returncode)
+
 
 def generate_env_file(example_path, target_path):
     """
@@ -21,21 +23,21 @@ def generate_env_file(example_path, target_path):
     """
     # defina aqui as chaves que devem ser geradas do zero
     gens = {
-        'POSTGRES_PASSWORD': 16,   # 16 bytes → ~22 chars
-        'REDIS_PASSWORD':      16,
-        'SECRET_KEY':         32,   # 32 bytes → ~43 chars
+        "POSTGRES_PASSWORD": 16,  # 16 bytes → ~22 chars
+        "REDIS_PASSWORD": 16,
+        "SECRET_KEY": 32,  # 32 bytes → ~43 chars
     }
 
-    with open(example_path, 'r', encoding='utf-8') as f:
+    with open(example_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
     out = []
     for line in lines:
-        if line.strip().startswith('#') or '=' not in line:
+        if line.strip().startswith("#") or "=" not in line:
             out.append(line)
             continue
 
-        key, rest = line.split('=', 1)
+        key, rest = line.split("=", 1)
         key = key.strip()
         if key in gens:
             token = secrets.token_urlsafe(gens[key])
@@ -44,10 +46,11 @@ def generate_env_file(example_path, target_path):
             # mantém exatamente como está no example
             out.append(line)
 
-    with open(target_path, 'w', encoding='utf-8') as f:
+    with open(target_path, "w", encoding="utf-8") as f:
         f.writelines(out)
 
     print(f"📝 `.env` criado em {target_path}")
+
 
 def main():
     root = os.path.dirname(os.path.dirname(__file__))
@@ -58,7 +61,7 @@ def main():
     if not os.path.isdir(venv_dir):
         print("🔧 Criando virtualenv em ./venv")
         venv.create(venv_dir, with_pip=True)
-    py = os.path.join(venv_dir, "Scripts" if os.name=='nt' else "bin", "python")
+    py = os.path.join(venv_dir, "Scripts" if os.name == "nt" else "bin", "python")
 
     # 2) Instala Python deps
     run([py, "-m", "pip", "install", "--upgrade", "pip"])
@@ -69,13 +72,16 @@ def main():
     # tenta achar 'npm' ou 'npm.cmd'
     npm_exe = shutil.which("npm") or shutil.which("npm.cmd")
     if not npm_exe:
-        print("❌ npm não encontrado. Instale o Node.js e verifique se o npm está no PATH.", file=sys.stderr)
+        print(
+            "❌ npm não encontrado. Instale o Node.js e verifique se o npm está no PATH.",
+            file=sys.stderr,
+        )
         sys.exit(1)
     run([npm_exe, "install"], cwd=frontend)
 
     # 4) Gera .env se não existir
     example = os.path.join(root, ".env.example")
-    target  = os.path.join(root, ".env")
+    target = os.path.join(root, ".env")
     if not os.path.isfile(example):
         print(f"❌ Não encontrei `.env.example` em {example}", file=sys.stderr)
         sys.exit(1)
@@ -95,13 +101,19 @@ def main():
     # 6.1) Certifica-se de que o CLI do Docker existe
     docker_bin = shutil.which("docker")
     if not docker_bin:
-        print("❌ Não encontrei o comando 'docker'. Instale o Docker Desktop e verifique se o 'docker' está no PATH.", file=sys.stderr)
+        print(
+            "❌ Não encontrei o comando 'docker'. Instale o Docker Desktop e verifique se o 'docker' está no PATH.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     # 6.2) Testa se o engine está up
     info = subprocess.run([docker_bin, "info"], capture_output=True, text=True)
     if info.returncode != 0:
-        print("❌ Não foi possível conectar ao Docker Engine. Verifique se o Docker Desktop ou o serviço Docker está em execução.", file=sys.stderr)
+        print(
+            "❌ Não foi possível conectar ao Docker Engine. Verifique se o Docker Desktop ou o serviço Docker está em execução.",
+            file=sys.stderr,
+        )
         # opcional: exibe erro original
         print(info.stderr, file=sys.stderr)
         sys.exit(1)
@@ -129,12 +141,16 @@ def main():
     print("🏗️  Construindo serviços locais…")
     res = subprocess.run(compose_cmd + ["build"])
     if res.returncode != 0:
-        print(f"❌ Falha ao construir: {' '.join(compose_cmd + ['build'])}", file=sys.stderr)
+        print(
+            f"❌ Falha ao construir: {' '.join(compose_cmd + ['build'])}",
+            file=sys.stderr,
+        )
         sys.exit(res.returncode)
 
     print("✅ Docker pronto para uso.")
 
     print("✅ Setup concluído com sucesso.")
+
 
 if __name__ == "__main__":
     main()
