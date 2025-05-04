@@ -28,6 +28,22 @@ Repositório de infraestrutura e código do **WeBot-ChatFLOW**, com frontend em 
 
 ---
 
+## ✅ Checklist de Setup
+
+Antes de abrir o seu editor ou começar a escrever código, garanta que **TODOS** os itens abaixo estão concluídos:
+
+- [ ] Clone o repositório  
+- [ ] Crie e ative o ambiente virtual Python  
+- [ ] `python scripts/setup.py`
+
+**O que esse comando faz** (em ordem):  
+1. Cria/atualiza o virtualenv Python e instala dependências  
+2. Instala dependências do frontend (`npm install`)  
+3. Gera o `.env` a partir de `.env.example` (senhas e `SECRET_KEY` auto-gerados)  
+4. Valida todas as variáveis de ambiente (fail-fast se faltar algo)  
+5. Puxa imagens públicas e builda as imagens locais Docker  
+
+
 # Clone e Setup
 
 
