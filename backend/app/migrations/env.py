@@ -3,6 +3,7 @@ from logging.config import fileConfig
 
 import models
 from alembic import context
+
 # IMPORTE AQUI O metadata do seu ORM
 # Exemplo: se seu Base estiver em backend/app/models.py
 from core.database import Base  # ← altere para o caminho real do seu projeto

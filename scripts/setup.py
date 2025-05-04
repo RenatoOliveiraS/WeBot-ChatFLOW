@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import os
-import sys
-import subprocess
-import venv
 import secrets
 import shutil
+import subprocess
+import sys
+import venv
 
 
 def run(cmd, cwd=None):
