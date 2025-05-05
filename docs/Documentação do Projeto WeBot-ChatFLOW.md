@@ -2,23 +2,20 @@
 
 ## **Sumário**
 
-1. Visão Geral do Projeto
-
-2. Arquitetura do Sistema
-
-3. Estrutura de Pastas
-
-4. Tecnologias e Componentes
-
-5. Fluxos Principais
-
-6. Testes
-
-7. Deploy e CI/CD
-
-8. Padrões de Código e Boas Práticas
-
-9. Roadmap
+1. Visão Geral do Projeto  
+2. Arquitetura do Sistema  
+3. Estrutura de Pastas  
+4. Tecnologias e Componentes  
+5. Fluxos Principais  
+   5.1 Envio de E-mail em Tempo Real  
+   5.2 Recebimento e Agrupamento por Conversas  
+   5.3 Editor Rich-Text  
+   5.4 Autenticação OAuth2/JWT  
+   **5.5 Página de Login**  
+6. Testes  
+7. Deploy e CI/CD  
+8. Padrões de Código e Boas Práticas  
+9. Roadmap  
 
 ---
 
@@ -138,6 +135,8 @@ WeBot-ChatFLOW/
 │       ├── components/                 \# Componentes React  
 │       ├── routes/                     \# Rotas do React Router (se houver)  
 │       └── styles/                     \# Estilos globais / CSS Modules  
+│       ├── pages/
+│       │   └── Login.tsx     # Nova página de login com MUI
 ├── app/  
 │   ├── api/                            \# Infrastructure & UI – FastAPI routes e config  
 │   │   └── v1/  
@@ -184,7 +183,7 @@ WeBot-ChatFLOW/
 
 | Camada | Tecnologia / Biblioteca |
 | ----- | ----- |
-| Front-end UI | Vite \+ React \+ TypeScript, TipTap (rich-text) |
+| Front-end UI | Vite \+ React \+ TypeScript, TipTap (rich-text),MUI |
 | API / WebSocket | FastAPI, starlette-websockets |
 | Domínio | Pydantic, enums |
 | Casos de Uso | Python puro, interfaces (ports) |
@@ -233,6 +232,42 @@ WeBot-ChatFLOW/
 * Fluxo Authorization Code com Keycloak (ou outro provider).
 
 * Endpoints protegidos por dependência de segurança no FastAPI.
+### **5.5 Página de Login**
+
+**Front-end:**  
+- Tech stack: React + TypeScript  
+- Biblioteca de UI: MUI (https://mui.com/)  
+- Local: `frontend/src/pages/Login.tsx`  
+- Campos obrigatórios: `email`, `senha`  
+- Validações: formato de e-mail, senha não vazia, exibição de erros inline  
+- Fluxo:
+  1. Usuário preenche o formulário e envia.
+  2. Requisição `POST /api/v1/auth/login` com corpo `LoginRequest`.
+  3. Armazenar JWT em `localStorage` (com expiração) ou `cookie` seguro.
+  4. Redirecionar para dashboard on success.
+
+**Back-end:**  
+- Framework: FastAPI  
+- Rota: `POST /api/v1/auth/login`  
+- Schemas Pydantic:
+  - `LoginRequest` (email: str, password: str)
+  - `LoginResponse` (access_token: str, token_type: str, user: UserDTO)
+- Fluxo:
+  1. Validar payload com Pydantic.
+  2. Verificar credenciais via `UserRepository`.
+  3. Gerar JWT (PyJWT) com claims: `sub`, `exp`, `roles`.
+  4. Retornar `LoginResponse`.
+
+**Integração Front-Back:**  
+- Front faz chamada ao endpoint, trata estados de loading/erro.
+- Back retorna respostas padronizadas (200, 401, 500).
+- Armazenamento seguro do token e redirecionamento.
+- Garantir CORS configurado em FastAPI.
+
+**Testes:**  
+- Front: testes unitários do componente Login (Jest + React Testing Library) e mocks de API.  
+- Back: testes unitários de casos de sucesso/erro em use_case de login; testes de integração do endpoint usando FastAPI TestClient.  
+- End-to-end (opcional): fluxo de login completo (por exemplo, Cypress).
 
 ---
 
