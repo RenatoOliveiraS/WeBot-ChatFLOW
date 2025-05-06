@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../services/authService';
 import Alert from '@mui/material/Alert';
@@ -80,7 +81,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     setOpen(false);
   };
 
-   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+
+   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => { 
        event.preventDefault();
        const data = new FormData(event.currentTarget);
        const payload = {
@@ -91,8 +93,13 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
          const response = await login(payload);
          localStorage.setItem('token', response.data.token);
          navigate('/dashboard');
-       } catch (err: any) {
-         setLoginError(err.response?.data?.message || 'Falha no login');
+       } catch (err: unknown) {
+         
+         let message = 'Falha no login';
+         if (axios.isAxiosError(err) && err.response?.data?.message) {
+          message = err.response.data.message;
+        }
+        setLoginError(message);
        }
      };
 

@@ -20,7 +20,7 @@
       }
     ],
     "rules": {
-      // suas customizações aqui
+      "import/prefer-default-export": "off"
     }
   }
   
