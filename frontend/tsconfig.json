@@ -1,7 +1,15 @@
 {
-  "files": [],
-  "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "jsx": "react-jsx",                  // habilita JSX
+    "esModuleInterop": true,             // permite import React from 'react'
+    "allowSyntheticDefaultImports": true,// importa módulos CommonJS como default
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "types": ["jest", "node"]            // inclui tipos de jest e node
+  },
+  "include": ["src", "src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
 }
