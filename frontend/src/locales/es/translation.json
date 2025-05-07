@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "rememberMe": "Recordarme",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "signIn": "Iniciar sesión",
+    "emailPlaceholder": "tu@email.com",
+    "passwordPlaceholder": "••••••",
+    "emailError": "Por favor, introduce un correo electrónico válido.",
+    "passwordError": "La contraseña debe tener al menos 6 caracteres.",
+    "loginError": "Error de inicio de sesión"
+  }
+} 

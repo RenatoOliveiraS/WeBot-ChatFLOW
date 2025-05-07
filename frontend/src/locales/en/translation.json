@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Sign in",
+    "email": "Email",
+    "password": "Password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot your password?",
+    "signIn": "Sign in",
+    "emailPlaceholder": "your@email.com",
+    "passwordPlaceholder": "••••••",
+    "emailError": "Please enter a valid email address.",
+    "passwordError": "Password must be at least 6 characters long.",
+    "loginError": "Login failed"
+  }
+} 

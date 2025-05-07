@@ -1,6 +1,7 @@
 import * as React from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { login } from '../services/authService';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
@@ -65,6 +66,7 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
 }));
 
 export default function SignIn(props: { disableCustomTheme?: boolean }) {
+  const { t } = useTranslation();
   const [emailError, setEmailError] = React.useState(false);
   const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
   const [passwordError, setPasswordError] = React.useState(false);
@@ -111,7 +113,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
     if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
       setEmailError(true);
-      setEmailErrorMessage('Please enter a valid email address.');
+      setEmailErrorMessage(t('login.emailError'));
       isValid = false;
     } else {
       setEmailError(false);
@@ -120,7 +122,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
     if (!password.value || password.value.length < 6) {
       setPasswordError(true);
-      setPasswordErrorMessage('Password must be at least 6 characters long.');
+      setPasswordErrorMessage(t('login.passwordError'));
       isValid = false;
     } else {
       setPasswordError(false);
@@ -142,7 +144,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             variant="h4"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
-            Sign in
+            {t('login.title')}
           </Typography>
           {loginError && (
             <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
@@ -161,14 +163,14 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             }}
           >
             <FormControl>
-              <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="email">{t('login.email')}</FormLabel>
               <TextField
                 error={emailError}
                 helperText={emailErrorMessage}
                 id="email"
                 type="email"
                 name="email"
-                placeholder="your@email.com"
+                placeholder={t('login.emailPlaceholder')}
                 autoComplete="email"
                 autoFocus
                 required
@@ -178,12 +180,12 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               />
             </FormControl>
             <FormControl>
-              <FormLabel htmlFor="password">Password</FormLabel>
+              <FormLabel htmlFor="password">{t('login.password')}</FormLabel>
               <TextField
                 error={passwordError}
                 helperText={passwordErrorMessage}
                 name="password"
-                placeholder="••••••"
+                placeholder={t('login.passwordPlaceholder')}
                 type="password"
                 id="password"
                 autoComplete="current-password"
@@ -196,7 +198,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
             </FormControl>
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
+              label={t('login.rememberMe')}
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
@@ -205,7 +207,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               variant="contained"
               onClick={validateInputs}
             >
-              Sign in
+              {t('login.signIn')}
             </Button>
             <Link
               component="button"
@@ -214,9 +216,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               variant="body2"
               sx={{ alignSelf: 'center' }}
             >
-              Forgot your password?
+              {t('login.forgotPassword')}
             </Link>
-
           </Box>
         </Card>
       </SignInContainer>

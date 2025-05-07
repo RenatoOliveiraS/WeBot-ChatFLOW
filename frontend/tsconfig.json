@@ -9,7 +9,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "types": ["jest", "node"]            // inclui tipos de jest e node
+    "types": ["jest", "node"],            // inclui tipos de jest e node
+    "resolveJsonModule": true
   },
   "include": ["src", "src/**/*.ts", "src/**/*.tsx", "src/**/*.js"]
 }

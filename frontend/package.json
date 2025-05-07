@@ -17,9 +17,12 @@
     "@mui/icons-material": "^7.1.0",
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
+    "i18next": "^25.1.1",
+    "i18next-browser-languagedetector": "^8.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.56.2",
+    "react-i18next": "^15.5.1",
     "react-router-dom": "^7.5.3",
     "yup": "^1.6.1"
   },
