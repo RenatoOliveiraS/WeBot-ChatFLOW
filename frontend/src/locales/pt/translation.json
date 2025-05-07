@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Entrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "rememberMe": "Lembrar-me",
+    "forgotPassword": "Esqueceu sua senha?",
+    "signIn": "Entrar",
+    "emailPlaceholder": "seu@email.com",
+    "passwordPlaceholder": "••••••",
+    "emailError": "Por favor, insira um endereço de e-mail válido.",
+    "passwordError": "A senha deve ter pelo menos 6 caracteres.",
+    "loginError": "Falha no login"
+  }
+} 
