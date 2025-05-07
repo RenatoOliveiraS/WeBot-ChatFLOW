@@ -1,5 +1,7 @@
 // import * as React from 'react';
 import SvgIcon from '@mui/material/SvgIcon';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 export function SitemarkIcon() {
   return (
@@ -116,5 +118,37 @@ export function GoogleIcon() {
         />
       </svg>
     </SvgIcon>
+  );
+}
+
+export function LogoIcon() {
+  return (
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1
+      }}
+    >
+      <Box
+        component="img"
+        src="/src/assets/logo.png"
+        alt="Logo"
+        sx={{
+          height: '40px',
+          width: 'auto',
+          objectFit: 'contain'
+        }}
+      />
+      <Typography
+        variant="h4"
+        sx={{
+          fontWeight: 600,
+          color: 'primary.black'
+        }}
+      >
+        WeBot
+      </Typography>
+    </Box>
   );
 }

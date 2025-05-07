@@ -70,7 +70,7 @@ describe('Login Page', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/usuário ou senha inválidos/i)).toBeInTheDocument()
-    })
+  })
   })
 
   it('should redirect to dashboard on successful login', async () => {
@@ -155,7 +155,7 @@ describe('Login Page', () => {
     renderLogin()
 
     expect(screen.getByRole('button', { name: /forgot your password/i })).toBeInTheDocument()
-  })
+    })
 
   it('should show required field errors', () => {
     renderLogin()
