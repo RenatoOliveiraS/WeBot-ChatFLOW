@@ -2,16 +2,26 @@
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import LoginPage from './pages/Login';
-import DashboardPage from './pages/Dashboard';
+import { useAuthContext } from './presentation/contexts/AuthContext';
+import Login from './presentation/pages/Login';
+import Dashboard from './presentation/pages/Dashboard';
 
-const App: React.FC = () => (
-  <Routes>
-    <Route path="/login" element={<LoginPage />} />
-    <Route path="/dashboard" element={<DashboardPage />} />
-    {/* redireciona “/” para “/login” */}
-    <Route path="/" element={<Navigate to="/login" replace />} />
-  </Routes>
-);
+function App() {
+  const { isAuthenticated } = useAuthContext();
+
+  return (
+    <Routes>
+      <Route
+        path="/login"
+        element={isAuthenticated ? <Navigate to="/dashboard" /> : <Login />}
+      />
+      <Route
+        path="/dashboard"
+        element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />}
+      />
+      <Route path="/" element={<Navigate to="/login" />} />
+    </Routes>
+  );
+}
 
 export default App;

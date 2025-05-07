@@ -6,6 +6,7 @@
     "rememberMe": "Remember me",
     "forgotPassword": "Forgot your password?",
     "signIn": "Sign in",
+    "loading": "Signing in...",
     "emailPlaceholder": "your@email.com",
     "passwordPlaceholder": "••••••",
     "emailError": "Please enter a valid email address.",

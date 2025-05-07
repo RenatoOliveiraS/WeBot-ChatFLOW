@@ -6,6 +6,7 @@
     "rememberMe": "Lembrar-me",
     "forgotPassword": "Esqueceu sua senha?",
     "signIn": "Entrar",
+    "loading": "Entrando...",
     "emailPlaceholder": "seu@email.com",
     "passwordPlaceholder": "••••••",
     "emailError": "Por favor, insira um endereço de e-mail válido.",

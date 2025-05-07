@@ -2,26 +2,24 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { ThemeProvider, createTheme, CssBaseline } from '@mui/material'
 import App from './App'
 import './i18n'
+import { ApiClient } from './infrastructure/api/ApiClient'
+import { UserRepositoryImpl } from './infrastructure/repositories/UserRepositoryImpl'
+import { AuthServiceImpl } from './infrastructure/services/AuthServiceImpl'
+import { AuthProvider } from './presentation/contexts/AuthContext'
 
-const darkTheme = createTheme({
-  palette: {
-    mode: 'dark',
-    primary: { main: '#90caf9' },
-    secondary: { main: '#f48fb1' },
-  },
-})
+// Inicializa as dependências
+const apiClient = new ApiClient()
+const userRepository = new UserRepositoryImpl(apiClient)
+const authService = new AuthServiceImpl(userRepository)
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={darkTheme}>
-      {/* normaliza cores, scrollbars etc */}
-      <CssBaseline />
-      <BrowserRouter>
+    <BrowserRouter>
+      <AuthProvider authService={authService}>
         <App />
-      </BrowserRouter>
-    </ThemeProvider>
+      </AuthProvider>
+    </BrowserRouter>
   </React.StrictMode>
 )
