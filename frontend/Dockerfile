@@ -15,4 +15,4 @@ COPY frontend/ .
 
 # 5) Expõe a porta do Vite (5173) e inicia o dev server
 EXPOSE 5173
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

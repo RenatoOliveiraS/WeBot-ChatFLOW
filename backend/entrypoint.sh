@@ -15,6 +15,9 @@ apt-get update && apt-get install -y netcat-openbsd
 # Aguarda o PostgreSQL ficar pronto
 wait_for_postgres
 
+# Configura o PYTHONPATH
+export PYTHONPATH=/app
+
 # Executa as migrações
 echo "Executando migrações..."
 alembic upgrade head
