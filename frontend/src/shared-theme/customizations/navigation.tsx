@@ -10,19 +10,231 @@ import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { gray, brand } from '../themePrimitives';
 
 export const navigationCustomizations: Components<Theme> = {
+  MuiAppBar: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: theme.palette.background.paper,
+        color: theme.palette.text.primary,
+        boxShadow: 'none',
+        borderBottom: `1px solid ${theme.palette.divider}`,
+        ...theme.applyStyles('dark', {
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }),
+    },
+  },
+  MuiToolbar: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        minHeight: '64px !important',
+        padding: '0 24px',
+        ...theme.applyStyles('dark', {
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }),
+    },
+  },
+  MuiDrawer: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '& .MuiDrawer-paper': {
+          width: 240,
+          boxSizing: 'border-box',
+          backgroundColor: theme.palette.background.paper,
+          borderRight: `1px solid ${theme.palette.divider}`,
+          ...theme.applyStyles('dark', {
+            backgroundColor: theme.palette.background.paper,
+          }),
+        },
+      }),
+    },
+  },
+  MuiList: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        padding: '8px',
+        ...theme.applyStyles('dark', {
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }),
+    },
+  },
+  MuiListItem: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        borderRadius: theme.shape.borderRadius,
+        marginBottom: '4px',
+        '&:last-child': {
+          marginBottom: 0,
+        },
+        ...theme.applyStyles('dark', {
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }),
+    },
+  },
+  MuiListItemButton: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        borderRadius: theme.shape.borderRadius,
+        padding: '8px 16px',
+        '&:hover': {
+          backgroundColor: theme.palette.action.hover,
+        },
+        '&.Mui-selected': {
+          backgroundColor: theme.palette.action.selected,
+          '&:hover': {
+            backgroundColor: theme.palette.action.selected,
+          },
+        },
+        ...theme.applyStyles('dark', {
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+          },
+          '&.Mui-selected': {
+            backgroundColor: theme.palette.action.selected,
+            '&:hover': {
+              backgroundColor: theme.palette.action.selected,
+            },
+          },
+        }),
+      }),
+    },
+  },
+  MuiListItemIcon: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        minWidth: '40px',
+        color: theme.palette.text.secondary,
+        ...theme.applyStyles('dark', {
+          color: theme.palette.text.secondary,
+        }),
+      }),
+    },
+  },
+  MuiListItemText: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        margin: 0,
+        '& .MuiTypography-root': {
+          fontSize: '0.875rem',
+          fontWeight: 500,
+        },
+      }),
+    },
+  },
+  MuiBottomNavigation: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        backgroundColor: theme.palette.background.default,
+        borderTop: `1px solid ${theme.palette.divider}`,
+        height: 56,
+        ...theme.applyStyles('dark', {
+          backgroundColor: theme.palette.grey[900],
+          '& .MuiBottomNavigationAction-root': {
+            color: theme.palette.grey[400],
+            '&.Mui-selected': {
+              color: theme.palette.grey[50],
+            },
+          },
+        }),
+      }),
+    },
+  },
+  MuiBottomNavigationAction: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        color: theme.palette.grey[800],
+        '&.Mui-selected': {
+          color: theme.palette.grey[200],
+        },
+      }),
+    },
+  },
+  MuiBreadcrumbs: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        color: theme.palette.text.secondary,
+        fontSize: '0.875rem',
+        '& .MuiBreadcrumbs-separator': {
+          margin: '0 8px',
+        },
+        '& .MuiBreadcrumbs-li': {
+          '&:last-child': {
+            color: theme.palette.text.primary,
+          },
+          '& .MuiLink-root': {
+            color: 'inherit',
+            textDecoration: 'none',
+            '&:hover': {
+              textDecoration: 'underline',
+            },
+          },
+        },
+      }),
+    },
+  },
+  MuiPagination: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '& .MuiPaginationItem-root': {
+          borderColor: theme.palette.divider,
+          '&.Mui-selected': {
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            '&:hover': {
+              backgroundColor: theme.palette.primary.dark,
+            },
+          },
+          '&.MuiPaginationItem-ellipsis': {
+            border: 'none',
+          },
+        },
+      }),
+    },
+  },
+  MuiPaginationItem: {
+    styleOverrides: {
+      root: ({ theme }) => ({
+        '&.Mui-selected': {
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          '&:hover': {
+            backgroundColor: theme.palette.primary.light,
+          },
+        },
+        '&.MuiPaginationItem-ellipsis': {
+          border: 'none',
+        },
+      }),
+    },
+  },
   MuiMenuItem: {
     styleOverrides: {
       root: ({ theme }) => ({
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        padding: '6px 8px',
-        [`&.${menuItemClasses.focusVisible}`]: {
-          backgroundColor: 'transparent',
+        borderRadius: theme.shape.borderRadius,
+        margin: '4px 8px',
+        padding: '8px 16px',
+        '&:hover': {
+          backgroundColor: theme.palette.action.hover,
         },
-        [`&.${menuItemClasses.selected}`]: {
-          [`&.${menuItemClasses.focusVisible}`]: {
-            backgroundColor: alpha(theme.palette.action.selected, 0.3),
+        '&.Mui-selected': {
+          backgroundColor: theme.palette.action.selected,
+          '&:hover': {
+            backgroundColor: theme.palette.action.selected,
           },
         },
+        ...theme.applyStyles('dark', {
+          '&:hover': {
+            backgroundColor: theme.palette.action.hover,
+          },
+          '&.Mui-selected': {
+            backgroundColor: theme.palette.action.selected,
+            '&:hover': {
+              backgroundColor: theme.palette.action.selected,
+            },
+          },
+        }),
       }),
     },
   },
@@ -36,8 +248,8 @@ export const navigationCustomizations: Components<Theme> = {
       },
       paper: ({ theme }) => ({
         marginTop: '4px',
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: `1px solid ${(theme.vars || theme).palette.divider}`,
+        borderRadius: theme.shape.borderRadius,
+        border: `1px solid ${theme.palette.divider}`,
         backgroundImage: 'none',
         background: 'hsl(0, 0%, 100%)',
         boxShadow:
@@ -56,60 +268,29 @@ export const navigationCustomizations: Components<Theme> = {
     },
   },
   MuiSelect: {
-    defaultProps: {
-      IconComponent: React.forwardRef<SVGSVGElement, SvgIconProps>((props, ref) => (
-        <UnfoldMoreRoundedIcon fontSize="small" {...props} ref={ref} />
-      )),
-    },
     styleOverrides: {
       root: ({ theme }) => ({
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: '1px solid',
-        borderColor: gray[200],
-        backgroundColor: (theme.vars || theme).palette.background.paper,
-        boxShadow: `inset 0 1px 0 1px hsla(220, 0%, 100%, 0.6), inset 0 -1px 0 1px hsla(220, 35%, 90%, 0.5)`,
-        '&:hover': {
-          borderColor: gray[300],
-          backgroundColor: (theme.vars || theme).palette.background.paper,
-          boxShadow: 'none',
+        '& .MuiSelect-select': {
+          borderRadius: theme.shape.borderRadius,
+          border: `1px solid ${theme.palette.divider}`,
+          padding: '8px 16px',
+          '&:focus': {
+            backgroundColor: theme.palette.background.paper,
+          },
         },
-        [`&.${selectClasses.focused}`]: {
-          outlineOffset: 0,
-          borderColor: gray[400],
-        },
-        '&:before, &:after': {
+        '& .MuiOutlinedInput-notchedOutline': {
           display: 'none',
         },
-
-        ...theme.applyStyles('dark', {
-          borderRadius: (theme.vars || theme).shape.borderRadius,
-          borderColor: gray[700],
-          backgroundColor: (theme.vars || theme).palette.background.paper,
-          boxShadow: `inset 0 1px 0 1px ${alpha(gray[700], 0.15)}, inset 0 -1px 0 1px hsla(220, 0%, 0%, 0.7)`,
-          '&:hover': {
-            borderColor: alpha(gray[700], 0.7),
-            backgroundColor: (theme.vars || theme).palette.background.paper,
-            boxShadow: 'none',
+        '&:hover': {
+          '& .MuiSelect-select': {
+            backgroundColor: theme.palette.background.paper,
           },
-          [`&.${selectClasses.focused}`]: {
-            outlineOffset: 0,
-            borderColor: gray[900],
+        },
+        '&.Mui-focused': {
+          '& .MuiSelect-select': {
+            backgroundColor: theme.palette.background.paper,
           },
-          '&:before, &:after': {
-            display: 'none',
-          },
-        }),
-      }),
-      select: ({ theme }) => ({
-        display: 'flex',
-        alignItems: 'center',
-        ...theme.applyStyles('dark', {
-          display: 'flex',
-          alignItems: 'center',
-          '&:focus-visible': {
-            backgroundColor: gray[900],
-          },
-        }),
+        },
       }),
     },
   },
@@ -119,7 +300,7 @@ export const navigationCustomizations: Components<Theme> = {
     },
     styleOverrides: {
       root: ({ theme }) => ({
-        color: (theme.vars || theme).palette.text.primary,
+        color: theme.palette.text.primary,
         fontWeight: 500,
         position: 'relative',
         textDecoration: 'none',
@@ -131,7 +312,7 @@ export const navigationCustomizations: Components<Theme> = {
           height: '1px',
           bottom: 0,
           left: 0,
-          backgroundColor: (theme.vars || theme).palette.text.secondary,
+          backgroundColor: theme.palette.text.secondary,
           opacity: 0.3,
           transition: 'width 0.3s ease, opacity 0.3s ease',
         },
@@ -146,70 +327,26 @@ export const navigationCustomizations: Components<Theme> = {
       }),
     },
   },
-  MuiDrawer: {
-    styleOverrides: {
-      paper: ({ theme }) => ({
-        backgroundColor: (theme.vars || theme).palette.background.default,
-      }),
-    },
-  },
-  MuiPaginationItem: {
-    styleOverrides: {
-      root: ({ theme }) => ({
-        '&.Mui-selected': {
-          color: 'white',
-          backgroundColor: (theme.vars || theme).palette.grey[900],
-        },
-        ...theme.applyStyles('dark', {
-          '&.Mui-selected': {
-            color: 'black',
-            backgroundColor: (theme.vars || theme).palette.grey[50],
-          },
-        }),
-      }),
-    },
-  },
   MuiTabs: {
     styleOverrides: {
-      root: { minHeight: 'fit-content' },
-      indicator: ({ theme }) => ({
-        backgroundColor: (theme.vars || theme).palette.grey[800],
-        ...theme.applyStyles('dark', {
-          backgroundColor: (theme.vars || theme).palette.grey[200],
-        }),
+      root: ({ theme }) => ({
+        minHeight: 48,
+        '& .MuiTabs-indicator': {
+          height: 3,
+          borderRadius: '3px 3px 0 0',
+        },
       }),
     },
   },
   MuiTab: {
     styleOverrides: {
       root: ({ theme }) => ({
-        padding: '6px 8px',
-        marginBottom: '8px',
         textTransform: 'none',
-        minWidth: 'fit-content',
-        minHeight: 'fit-content',
-        color: (theme.vars || theme).palette.text.secondary,
-        borderRadius: (theme.vars || theme).shape.borderRadius,
-        border: '1px solid',
-        borderColor: 'transparent',
-        ':hover': {
-          color: (theme.vars || theme).palette.text.primary,
-          backgroundColor: gray[100],
-          borderColor: gray[200],
+        minHeight: 48,
+        padding: '12px 16px',
+        '&.Mui-selected': {
+          fontWeight: 600,
         },
-        [`&.${tabClasses.selected}`]: {
-          color: gray[900],
-        },
-        ...theme.applyStyles('dark', {
-          ':hover': {
-            color: (theme.vars || theme).palette.text.primary,
-            backgroundColor: gray[800],
-            borderColor: gray[700],
-          },
-          [`&.${tabClasses.selected}`]: {
-            color: '#fff',
-          },
-        }),
       }),
     },
   },
@@ -217,7 +354,7 @@ export const navigationCustomizations: Components<Theme> = {
     styleOverrides: {
       line: ({ theme }) => ({
         borderTop: '1px solid',
-        borderColor: (theme.vars || theme).palette.divider,
+        borderColor: theme.palette.divider,
         flex: 1,
         borderRadius: '99px',
       }),
@@ -236,21 +373,21 @@ export const navigationCustomizations: Components<Theme> = {
         },
         '&.Mui-active': {
           border: 'none',
-          color: (theme.vars || theme).palette.primary.main,
+          color: theme.palette.primary.main,
         },
         '&.Mui-completed': {
           border: 'none',
-          color: (theme.vars || theme).palette.success.main,
+          color: theme.palette.success.main,
         },
         ...theme.applyStyles('dark', {
           border: `1px solid ${gray[700]}`,
           '&.Mui-active': {
             border: 'none',
-            color: (theme.vars || theme).palette.primary.light,
+            color: theme.palette.primary.light,
           },
           '&.Mui-completed': {
             border: 'none',
-            color: (theme.vars || theme).palette.success.light,
+            color: theme.palette.success.light,
           },
         }),
         variants: [
