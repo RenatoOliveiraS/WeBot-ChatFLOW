@@ -13,19 +13,19 @@ interface ForgotPasswordProps {
 }
 
 export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    handleClose();
+  };
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      slotProps={{
-        paper: {
-          component: 'form',
-          onSubmit: (event: React.FormEvent<HTMLFormElement>) => {
-            event.preventDefault();
-            handleClose();
-          },
-          sx: { backgroundImage: 'none' },
-        },
+      component="form"
+      onSubmit={handleSubmit}
+      PaperProps={{
+        sx: { backgroundImage: 'none' }
       }}
     >
       <DialogTitle>Reset password</DialogTitle>
