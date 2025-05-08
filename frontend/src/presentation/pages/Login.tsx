@@ -20,6 +20,7 @@ import { styled } from '@mui/material/styles';
 import ForgotPassword from '../../shared-theme/components/ForgotPassword';
 import AppTheme from '../../shared-theme/AppTheme';
 import ColorModeSelect from '../../shared-theme/ColorModeSelect';
+import LanguageSelect from '../../shared-theme/LanguageSelect';
 import { LogoIcon } from '../../shared-theme/components/CustomIcons';
 
 const Card = styled(MuiCard)(({ theme }) => ({
@@ -129,7 +130,10 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
     <AppTheme {...props}>
       <CssBaseline enableColorScheme />
       <SignInContainer direction="column" justifyContent="space-between">
-        <ColorModeSelect sx={{ position: 'fixed', top: '1rem', right: '1rem' }} />
+        <Box sx={{ position: 'fixed', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center' }}>
+          <ColorModeSelect />
+          <LanguageSelect />
+        </Box>
         <Card variant="outlined">
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
             <LogoIcon />

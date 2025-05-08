@@ -225,5 +225,3 @@ Snapshots:   0 total
       - id: isort
 ---
 
-
-alembic upgrade head
