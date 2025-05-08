@@ -1,5 +1,5 @@
 import { User, LoginCredentials } from '../../core/domain/entities/User';
-import { UserRepository } from '../../core/interfaces/repositories/UserRepository';
+import { UserRepository, LoginResponse } from '../../core/interfaces/repositories/UserRepository';
 import { ApiClient } from '../api/ApiClient';
 
 export class UserRepositoryImpl implements UserRepository {
@@ -7,19 +7,26 @@ export class UserRepositoryImpl implements UserRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     try {
-      const response = await this.api.get<User>(`/users/${email}`);
+      const response = await this.api.get<User>(`/api/v1/users/${email}`);
       return response.data;
     } catch (error) {
       return null;
     }
   }
 
-  async authenticate(credentials: LoginCredentials): Promise<User> {
-    const response = await this.api.post<User>('/auth/login', credentials);
-    return response.data;
+  async authenticate(credentials: LoginCredentials): Promise<LoginResponse> {
+    console.log('Tentando autenticar com:', credentials);
+    try {
+      const response = await this.api.post<LoginResponse>('/api/v1/auth/login', credentials);
+      console.log('Resposta da autenticação:', response.data);
+      return response.data;
+    } catch (error: any) {
+      console.error('Erro na autenticação:', error.response?.data || error.message);
+      throw error;
+    }
   }
 
   async save(user: User): Promise<void> {
-    await this.api.post('/users', user);
+    await this.api.post('/api/v1/users', user);
   }
 } 

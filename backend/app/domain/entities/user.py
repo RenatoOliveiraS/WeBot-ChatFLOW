@@ -15,6 +15,24 @@ class User:
     updated_at: datetime
     is_active: bool = True
 
+    def __init__(
+        self,
+        id: str,
+        email: str,
+        password: str,
+        roles: List[str],
+        is_active: bool = True,
+        created_at: datetime = None,
+        updated_at: datetime = None,
+    ):
+        self.id = id
+        self.email = email
+        self.password = password
+        self.roles = roles
+        self.is_active = is_active
+        self.created_at = created_at or datetime.utcnow()
+        self.updated_at = updated_at or datetime.utcnow()
+
     @classmethod
     def create(cls, email: str, password_hash: str, roles: List[str] = None) -> "User":
         """
@@ -75,3 +93,12 @@ class User:
         """
         self.is_active = True
         self.updated_at = datetime.utcnow()
+
+    def to_dict(self):
+        return {
+            "email": self.email,
+            "roles": self.roles,
+            "is_active": self.is_active,
+            "created_at": self.created_at.isoformat(),
+            "updated_at": self.updated_at.isoformat(),
+        }

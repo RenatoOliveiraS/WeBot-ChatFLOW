@@ -15,25 +15,21 @@ export class AuthServiceImpl implements AuthService {
 
   async login(credentials: LoginCredentials): Promise<User> {
     try {
-      // Mock temporário - remover quando o backend estiver pronto
-      if (credentials.password === '123456') {
-        const mockUser: User = {
-          id: '1',
-          email: credentials.email,
-          name: 'Usuário Mock',
-          token: 'mock-token-123'
-        };
-        this.setCurrentUser(mockUser);
-        return mockUser;
+      const response = await this.userRepository.authenticate(credentials);
+      const user: User = {
+        id: response.user_id,
+        email: response.email,
+        roles: response.roles,
+        token: response.access_token
+      };
+      
+      this.setCurrentUser(user);
+      return user;
+    } catch (error: any) {
+      if (error.response?.status === 401) {
+        throw new Error('Usuário ou senha inválidos');
       }
-      throw new Error('Usuário ou senha inválidos');
-
-      // Implementação real - descomentar quando o backend estiver pronto
-      // const user = await this.userRepository.authenticate(credentials);
-      // this.setCurrentUser(user);
-      // return user;
-    } catch (error) {
-      throw new Error('Falha na autenticação');
+      throw new Error('Falha na autenticação. Tente novamente mais tarde.');
     }
   }
 
@@ -48,7 +44,7 @@ export class AuthServiceImpl implements AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.currentUser;
+    return !!this.currentUser && !!localStorage.getItem('token');
   }
 
   private setCurrentUser(user: User): void {
