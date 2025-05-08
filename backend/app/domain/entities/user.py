@@ -1,101 +1,117 @@
 import re
-from dataclasses import dataclass
+import uuid
 from datetime import datetime
-from typing import List
-from uuid import UUID
+from typing import List, Optional
 
 
-@dataclass
 class User:
-    id: UUID
-    email: str
-    password_hash: str
-    roles: List[str]
-    created_at: datetime
-    updated_at: datetime
-    is_active: bool = True
+    """Entidade de usuário."""
 
     def __init__(
         self,
         id: str,
         email: str,
-        password: str,
+        password_hash: str,
         roles: List[str],
-        is_active: bool = True,
-        created_at: datetime = None,
-        updated_at: datetime = None,
+        is_active: bool,
+        created_at: datetime,
+        updated_at: datetime,
     ):
+        """Inicializa um usuário."""
         self.id = id
         self.email = email
-        self.password = password
+        self.password_hash = password_hash
         self.roles = roles
         self.is_active = is_active
-        self.created_at = created_at or datetime.utcnow()
-        self.updated_at = updated_at or datetime.utcnow()
+        self.created_at = created_at
+        self.updated_at = updated_at
 
     @classmethod
-    def create(cls, email: str, password_hash: str, roles: List[str] = None) -> "User":
-        """
-        Factory method para criar um novo usuário
-        """
-        from uuid import uuid4
+    def create(
+        cls, email: str, password_hash: str, roles: Optional[List[str]] = None
+    ) -> "User":
+        """Cria um novo usuário."""
+        if not email:
+            raise ValueError("Email não pode ser nulo")
 
-        now = datetime.utcnow()
+        if not cls.validate_email(email):
+            raise ValueError("Email inválido")
+
+        if not roles:
+            roles = ["user"]
+        elif not roles:
+            raise ValueError("Usuário deve ter pelo menos uma role")
+
         return cls(
-            id=uuid4(),
-            email=email.lower().strip(),
+            id=str(uuid.uuid4()),
+            email=email,
             password_hash=password_hash,
-            roles=roles or ["user"],
-            created_at=now,
-            updated_at=now,
+            roles=roles,
             is_active=True,
+            created_at=datetime.utcnow(),
+            updated_at=datetime.utcnow(),
         )
 
-    def validate_email(self) -> bool:
-        """
-        Valida o formato do email
-        """
-        email_pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
-        return bool(re.match(email_pattern, self.email))
+    @staticmethod
+    def validate_email(email: str) -> bool:
+        """Valida o formato do email."""
+        if not email:
+            return False
+
+        # Regex mais rigoroso para validação de email
+        pattern = r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+        if not re.match(pattern, email):
+            return False
+
+        # Validações adicionais
+        if email.count("@") != 1:
+            return False
+
+        local_part, domain = email.split("@")
+        if not local_part or not domain:
+            return False
+
+        if len(local_part) > 64 or len(domain) > 255:
+            return False
+
+        if ".." in local_part or ".." in domain:
+            return False
+
+        if domain.startswith(".") or domain.endswith("."):
+            return False
+
+        return True
 
     def has_role(self, role: str) -> bool:
-        """
-        Verifica se o usuário possui uma determinada role
-        """
+        """Verifica se o usuário tem um determinado papel."""
         return role in self.roles
 
     def add_role(self, role: str) -> None:
-        """
-        Adiciona uma nova role ao usuário
-        """
+        """Adiciona um papel ao usuário."""
         if role not in self.roles:
             self.roles.append(role)
             self.updated_at = datetime.utcnow()
 
     def remove_role(self, role: str) -> None:
-        """
-        Remove uma role do usuário
-        """
-        if role in self.roles:
+        """Remove um papel do usuário."""
+        if role in self.roles and len(self.roles) > 1:
             self.roles.remove(role)
             self.updated_at = datetime.utcnow()
 
     def deactivate(self) -> None:
-        """
-        Desativa o usuário
-        """
+        """Desativa o usuário."""
         self.is_active = False
         self.updated_at = datetime.utcnow()
 
     def activate(self) -> None:
-        """
-        Reativa o usuário
-        """
+        """Ativa o usuário."""
         self.is_active = True
         self.updated_at = datetime.utcnow()
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        """Converte o usuário para um dicionário."""
         return {
+            "id": self.id,
             "email": self.email,
             "roles": self.roles,
             "is_active": self.is_active,

@@ -16,6 +16,7 @@ Repositório de infraestrutura e código do **WeBot-ChatFLOW**, com frontend em 
 5. [Executando a Aplicação](#executando-a-aplicação)  
 6. [Contribuição](#contribuição)  
 7. [Licença](#licença)  
+8. [Testes](#testes)
 
 ---
 
@@ -153,3 +154,109 @@ Acesse em `http://localhost:8000/docs`.
 ## Licença
 
 Este projeto está licenciado sob a **MIT License** – veja o arquivo [LICENSE](LICENSE) para mais detalhes.  
+
+## Testes
+
+### Executando os testes localmente
+
+#### Windows (PowerShell)
+```powershell
+cd backend
+.\scripts\run_tests_local.ps1
+```
+
+#### Windows (CMD)
+```cmd
+cd backend
+scripts\run_tests_local.bat
+```
+
+#### Linux/Mac
+```bash
+cd backend
+./scripts/run_tests_local.sh
+```
+
+### Executando os testes com Docker
+
+#### Windows (PowerShell)
+```powershell
+cd backend
+.\scripts\run_tests_docker.ps1
+```
+
+#### Windows (CMD)
+```cmd
+cd backend
+scripts\run_tests_docker.bat
+```
+
+#### Linux/Mac
+```bash
+cd backend
+./scripts/run_tests_docker.sh
+```
+
+### Relatório de cobertura
+Após a execução dos testes, um relatório de cobertura em HTML será gerado em `backend/htmlcov/index.html`. Abra este arquivo em seu navegador para visualizar a cobertura de código detalhada.  
+
+## 🐳 Docker Compose
+
+O projeto usa Docker Compose para orquestrar os serviços. Para iniciar todos os serviços, execute:
+
+```bash
+docker-compose up --build
+```
+
+### Serviços
+
+- **Backend**: API Python em FastAPI
+  - Porta: 8000
+  - URL: http://localhost:8000
+
+- **Frontend**: Aplicação React
+  - Porta: 3000
+  - URL: http://localhost:3000
+
+- **PostgreSQL**: Banco de dados
+  - Porta: 5432
+  - Usuário padrão: webot
+  - Senha padrão: secret
+  - Banco: webot_db
+
+- **Redis**: Cache e filas
+  - Porta: 6379
+  - Senha padrão: secret
+
+### Variáveis de Ambiente
+
+Crie um arquivo `.env` na raiz do projeto com as seguintes variáveis:
+
+```env
+# PostgreSQL
+POSTGRES_USER=webot
+POSTGRES_PASSWORD=secret
+POSTGRES_DB=webot_db
+
+# Redis
+REDIS_PASSWORD=secret
+
+# Backend
+SECRET_KEY=your-secret-key-here
+JWT_SECRET_KEY=your-jwt-secret-key-here
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=admin123
+
+# Frontend
+VITE_API_URL=http://localhost:8000
+```
+
+### Inicialização Automática
+
+O sistema é configurado para:
+1. Aguardar o PostgreSQL estar pronto
+2. Executar as migrações do banco de dados
+3. Criar o usuário admin
+4. Iniciar a aplicação
+
+Tudo isso acontece automaticamente ao executar `docker-compose up --build`.  

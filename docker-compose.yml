@@ -13,24 +13,31 @@ volumes:
 services:
   backend:
     build:
-      context: .
-      dockerfile: backend/app/Dockerfile
+      context: ./backend
+      dockerfile: Dockerfile
     image: webot-backend:dev
     env_file:
       - ./.env
     environment:
-      DATABASE_URL: "${DATABASE_URL}"
-      REDIS_URL: "${REDIS_URL}"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-webot}:${POSTGRES_PASSWORD:-secret}@postgres:5432/${POSTGRES_DB:-webot_db}"
+      REDIS_URL: "redis://:${REDIS_PASSWORD}@redis:6379/0"
       SECRET_KEY: "${SECRET_KEY}"
+      JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
+      ADMIN_EMAIL: "${ADMIN_EMAIL:-admin@example.com}"
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - webot-network
     volumes:
-      - ./backend/app:/app
+      - ./backend:/app
+      - /app/__pycache__
+      - /app/.pytest_cache
 
   frontend:
     build:
@@ -65,7 +72,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-webot}"]
       interval: 10s
+      timeout: 5s
       retries: 5
+      start_period: 10s
     networks:
       - webot-network    
 

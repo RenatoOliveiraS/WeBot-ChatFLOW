@@ -11,6 +11,12 @@
     "passwordPlaceholder": "••••••",
     "emailError": "Por favor, introduce un correo electrónico válido.",
     "passwordError": "La contraseña debe tener al menos 6 caracteres.",
-    "loginError": "Error de inicio de sesión"
+    "loginError": "Error de inicio de sesión",
+    "authError": {
+      "invalidCredentials": "Usuario o contraseña inválidos",
+      "serverError": "Error de autenticación. Por favor, inténtalo de nuevo más tarde.",
+      "inactiveUser": "Usuario inactivo",
+      "userNotFound": "Usuario no encontrado"
+    }
   }
 } 

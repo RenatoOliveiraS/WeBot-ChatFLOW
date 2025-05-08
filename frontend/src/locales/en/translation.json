@@ -11,6 +11,12 @@
     "passwordPlaceholder": "••••••",
     "emailError": "Please enter a valid email address.",
     "passwordError": "Password must be at least 6 characters long.",
-    "loginError": "Login failed"
+    "loginError": "Login failed",
+    "authError": {
+      "invalidCredentials": "Invalid username or password",
+      "serverError": "Authentication failed. Please try again later.",
+      "inactiveUser": "Inactive user",
+      "userNotFound": "User not found"
+    }
   }
 } 

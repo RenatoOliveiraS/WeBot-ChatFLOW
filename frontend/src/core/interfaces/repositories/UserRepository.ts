@@ -5,7 +5,7 @@ export interface LoginResponse {
   refresh_token: string;
   token_type: string;
   expires_in: number;
-  user_id: string;
+  id: string;
   email: string;
   roles: string[];
   is_active: boolean;

@@ -1,9 +1,9 @@
 # Python
 __pycache__/
-*.py[cod]
-env/
-.env*
-!.env.example
+# *.py[cod]
+# env/
+# .env*
+# !.env.example
 
 # Node
 node_modules/
@@ -13,5 +13,11 @@ dist/
 *.log
 docker-compose.override.yml
 
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+coverage.xml
+.coverage.*
 
 venv/

@@ -1,14 +1,17 @@
 // src/__tests__/Login.test.tsx
-
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
-import { BrowserRouter } from 'react-router-dom'
+import { screen, fireEvent, waitFor, act } from '@testing-library/react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import Login from '../presentation/pages/Login'
-import { AuthProvider } from '../presentation/contexts/AuthContext'
-import { AuthServiceImpl } from '../infrastructure/services/AuthServiceImpl'
-import { UserRepositoryImpl } from '../infrastructure/repositories/UserRepositoryImpl'
-import { ApiClient } from '../infrastructure/api/ApiClient'
+import { LoginCredentials } from '../core/interfaces/dtos/LoginCredentials'
+import { render as customRender, mockAuthService } from './test-utils'
+
+// Mock do módulo de ambiente
+jest.mock('../config/environment', () => ({
+  environment: {
+    apiUrl: 'http://localhost:8000'
+  }
+}));
 
 // Mock do módulo de navegação
 const mockNavigate = jest.fn()
@@ -17,45 +20,21 @@ jest.mock('react-router-dom', () => ({
   useNavigate: () => mockNavigate,
 }))
 
-// Configuração dos mocks
-const apiClient = new ApiClient()
-const userRepository = new UserRepositoryImpl(apiClient)
-const authService = new AuthServiceImpl(userRepository)
-
-// Mock do serviço de autenticação
-jest.spyOn(authService, 'login').mockImplementation(async (credentials) => {
-  if (credentials.password === '123456') {
-    return {
-      id: '1',
-      email: credentials.email,
-      name: 'Usuário Teste',
-      token: 'mock-token-123'
-    }
-  }
-  throw new Error('Usuário ou senha inválidos')
-})
-
 const renderLogin = () => {
-  return render(
-    <BrowserRouter>
-      <I18nextProvider i18n={i18n}>
-        <AuthProvider authService={authService}>
-          <Login />
-        </AuthProvider>
-      </I18nextProvider>
-    </BrowserRouter>
-  )
+  return customRender(<Login />)
 }
 
 describe('Login Page', () => {
   beforeEach(() => {
     mockNavigate.mockClear()
+    jest.clearAllMocks()
     act(() => {
       i18n.changeLanguage('en')
     })
   })
 
   it('should display error message for invalid password', async () => {
+    mockAuthService.login.mockRejectedValueOnce(new Error('Usuário ou senha inválidos'))
     renderLogin()
 
     const emailInput = screen.getByPlaceholderText(/your@email.com/i)
@@ -70,10 +49,16 @@ describe('Login Page', () => {
 
     await waitFor(() => {
       expect(screen.getByText(/usuário ou senha inválidos/i)).toBeInTheDocument()
-  })
+    })
   })
 
   it('should redirect to dashboard on successful login', async () => {
+    mockAuthService.login.mockResolvedValueOnce({
+      id: '1',
+      email: 'test@example.com',
+      roles: ['user'],
+      token: 'mock-token-123'
+    })
     renderLogin()
 
     const emailInput = screen.getByPlaceholderText(/your@email.com/i)
@@ -155,7 +140,7 @@ describe('Login Page', () => {
     renderLogin()
 
     expect(screen.getByRole('button', { name: /forgot your password/i })).toBeInTheDocument()
-    })
+  })
 
   it('should show required field errors', () => {
     renderLogin()

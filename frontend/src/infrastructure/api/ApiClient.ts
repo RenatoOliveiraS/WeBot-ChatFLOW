@@ -1,16 +1,17 @@
 import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { environment } from '../../config/environment';
 
 export class ApiClient {
   private api: AxiosInstance;
 
-  constructor() {
-    const apiUrl = import.meta.env.VITE_API_URL;
+  constructor(baseUrl?: string) {
+    const apiUrl = baseUrl || environment.apiUrl;
     
     if (!apiUrl) {
       throw new Error('VITE_API_URL não está definida nas variáveis de ambiente');
     }
-
-    console.log('Inicializando ApiClient com URL:', apiUrl);
+    
+    console.log('Inicializando ApiClient');
 
     this.api = axios.create({
       baseURL: apiUrl,
@@ -31,18 +32,19 @@ export class ApiClient {
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
+        // Log seguro da requisição
         console.log('Enviando requisição:', {
           url: config.url,
           method: config.method,
-          headers: config.headers,
-          data: config.data,
-          baseURL: config.baseURL,
-          fullURL: `${config.baseURL}${config.url}`
+          headers: {
+            ...config.headers,
+            Authorization: config.headers.Authorization ? 'Bearer [REDACTED]' : undefined
+          }
         });
         return config;
       },
       (error) => {
-        console.error('Erro na requisição:', error);
+        console.error('Erro na requisição:', error.message);
         return Promise.reject(error);
       }
     );
@@ -50,28 +52,18 @@ export class ApiClient {
     // Response interceptor
     this.api.interceptors.response.use(
       (response) => {
+        // Log seguro da resposta
         console.log('Resposta recebida:', {
           status: response.status,
-          data: response.data,
-          headers: response.headers,
-          config: {
-            url: response.config.url,
-            baseURL: response.config.baseURL,
-            fullURL: `${response.config.baseURL}${response.config.url}`
-          }
+          url: response.config.url
         });
         return response;
       },
       (error) => {
         console.error('Erro na resposta:', {
           status: error.response?.status,
-          data: error.response?.data,
           message: error.message,
-          config: error.config ? {
-            url: error.config.url,
-            baseURL: error.config.baseURL,
-            fullURL: `${error.config.baseURL}${error.config.url}`
-          } : 'No config'
+          url: error.config?.url
         });
         if (error.response?.status === 401) {
           localStorage.removeItem('token');
@@ -87,19 +79,19 @@ export class ApiClient {
     try {
       return await this.api.get<T>(url);
     } catch (error: any) {
-      console.error(`Erro na requisição GET ${url}:`, error.response?.data || error.message);
+      console.error(`Erro na requisição GET ${url}:`, error.message);
       throw error;
     }
   }
 
   public async post<T>(url: string, data: any): Promise<AxiosResponse<T>> {
     try {
-      console.log(`Enviando POST para ${url}:`, data);
+      // Log seguro do POST
+      console.log(`Enviando POST para ${url}`);
       const response = await this.api.post<T>(url, data);
-      console.log(`Resposta do POST ${url}:`, response.data);
       return response;
     } catch (error: any) {
-      console.error(`Erro na requisição POST ${url}:`, error.response?.data || error.message);
+      console.error(`Erro na requisição POST ${url}:`, error.message);
       throw error;
     }
   }
@@ -108,7 +100,7 @@ export class ApiClient {
     try {
       return await this.api.put<T>(url, data);
     } catch (error: any) {
-      console.error(`Erro na requisição PUT ${url}:`, error.response?.data || error.message);
+      console.error(`Erro na requisição PUT ${url}:`, error.message);
       throw error;
     }
   }
@@ -117,7 +109,7 @@ export class ApiClient {
     try {
       return await this.api.delete<T>(url);
     } catch (error: any) {
-      console.error(`Erro na requisição DELETE ${url}:`, error.response?.data || error.message);
+      console.error(`Erro na requisição DELETE ${url}:`, error.message);
       throw error;
     }
   }

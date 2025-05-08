@@ -1,6 +1,7 @@
 import { User, LoginCredentials } from '../../core/domain/entities/User';
 import { AuthService } from '../../core/interfaces/services/AuthService';
 import { UserRepository } from '../../core/interfaces/repositories/UserRepository';
+import i18n from '../../i18n';
 
 export class AuthServiceImpl implements AuthService {
   private currentUser: User | null = null;
@@ -17,7 +18,7 @@ export class AuthServiceImpl implements AuthService {
     try {
       const response = await this.userRepository.authenticate(credentials);
       const user: User = {
-        id: response.user_id,
+        id: response.id,
         email: response.email,
         roles: response.roles,
         token: response.access_token
@@ -26,10 +27,20 @@ export class AuthServiceImpl implements AuthService {
       this.setCurrentUser(user);
       return user;
     } catch (error: any) {
+      console.error('Erro no login:', error);
       if (error.response?.status === 401) {
-        throw new Error('Usuário ou senha inválidos');
+        throw new Error(i18n.t('login.authError.invalidCredentials'));
       }
-      throw new Error('Falha na autenticação. Tente novamente mais tarde.');
+      if (error.response?.data?.detail) {
+        const errorMessage = error.response.data.detail;
+        if (errorMessage.includes('inativo')) {
+          throw new Error(i18n.t('login.authError.inactiveUser'));
+        }
+        if (errorMessage.includes('não encontrado')) {
+          throw new Error(i18n.t('login.authError.userNotFound'));
+        }
+      }
+      throw new Error(i18n.t('login.authError.serverError'));
     }
   }
 

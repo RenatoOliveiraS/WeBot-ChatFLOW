@@ -1,11 +1,11 @@
 from typing import Annotated
 
+from app.domain.repositories.user_repository import IUserRepository
 from app.infrastructure.repositories.user_repository import UserRepositoryImpl
-from app.use_cases.auth.authenticate_user import UserRepository
 from fastapi import Depends
 
 
-async def get_user_repository() -> UserRepository:
+async def get_user_repository() -> IUserRepository:
     """
     Provedor de dependência para o UserRepository
     """
@@ -13,4 +13,4 @@ async def get_user_repository() -> UserRepository:
 
 
 # Tipo anotado para injeção de dependência
-UserRepositoryDep = Annotated[UserRepository, Depends(get_user_repository)]
+UserRepositoryDep = Annotated[IUserRepository, Depends(get_user_repository)]
