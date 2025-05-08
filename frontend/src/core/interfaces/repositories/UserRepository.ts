@@ -1,4 +1,4 @@
-import { User, LoginCredentials } from '../../domain/entities/User';
+import { User, CreateUserDTO, UpdateUserDTO, LoginCredentials } from '../../domain/entities/User';
 
 export interface LoginResponse {
   access_token: string;
@@ -16,7 +16,14 @@ export interface LoginResponse {
 }
 
 export interface UserRepository {
-  findByEmail(email: string): Promise<User | null>;
+  // Auth
   authenticate(credentials: LoginCredentials): Promise<LoginResponse>;
-  save(user: User): Promise<void>;
+  
+  // CRUD
+  create(user: CreateUserDTO): Promise<User>;
+  findById(id: string): Promise<User | null>;
+  findByEmail(email: string): Promise<User | null>;
+  update(id: string, user: UpdateUserDTO): Promise<User>;
+  delete(id: string): Promise<void>;
+  list(): Promise<User[]>;
 } 

@@ -44,10 +44,12 @@ async def login(
         )
 
         authenticate_user = AuthenticateUser(user_repository, JWT_SECRET_KEY)
-        token = authenticate_user.execute(login_request.email, login_request.password)
+        token = await authenticate_user.execute(
+            login_request.email, login_request.password
+        )
 
         # Buscar o usuário para obter os dados necessários
-        user = user_repository.find_by_email(login_request.email)
+        user = await user_repository.find_by_email(login_request.email)
 
         response = LoginResponse(
             access_token=token,

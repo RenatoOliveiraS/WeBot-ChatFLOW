@@ -5,24 +5,23 @@ from typing import List, Optional
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import IUserRepository
 from app.infrastructure.models.user import UserModel
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
+from sqlalchemy.ext.asyncio import AsyncSession
 
 logger = logging.getLogger(__name__)
 
 
 class PostgresUserRepository(IUserRepository):
-    def __init__(self, session: Session):
+    def __init__(self, session: AsyncSession):
         self.session = session
 
-    def find_by_email(self, email: str) -> Optional[User]:
+    async def find_by_email(self, email: str) -> Optional[User]:
         try:
             logger.info(f"Buscando usuário com email: {email}")
-            user_model = (
-                self.session.query(UserModel)
-                .filter(UserModel.email == email.lower())
-                .first()
-            )
+            query = select(UserModel).where(UserModel.email == email.lower())
+            result = await self.session.execute(query)
+            user_model = result.scalar_one_or_none()
             if user_model:
                 return self._to_entity(user_model)
             return None
@@ -30,12 +29,12 @@ class PostgresUserRepository(IUserRepository):
             logger.error(f"Erro ao buscar usuário por email: {e}")
             raise
 
-    def find_by_id(self, user_id: str) -> Optional[User]:
+    async def find_by_id(self, user_id: str) -> Optional[User]:
         try:
             logger.info(f"Buscando usuário com ID: {user_id}")
-            user_model = (
-                self.session.query(UserModel).filter(UserModel.id == user_id).first()
-            )
+            query = select(UserModel).where(UserModel.id == user_id)
+            result = await self.session.execute(query)
+            user_model = result.scalar_one_or_none()
             if user_model:
                 return self._to_entity(user_model)
             return None
@@ -43,7 +42,7 @@ class PostgresUserRepository(IUserRepository):
             logger.error(f"Erro ao buscar usuário por ID: {e}")
             raise
 
-    def create(self, user: User) -> User:
+    async def create(self, user: User) -> User:
         try:
             if not user.email:
                 raise ValueError("Email não pode ser nulo")
@@ -58,72 +57,80 @@ class PostgresUserRepository(IUserRepository):
             user_model = UserModel(
                 email=user.email.lower(),
                 password_hash=user.password_hash,
+                name=user.name,
+                photo=user.photo,
                 roles=user.roles,
                 is_active=user.is_active,
                 created_at=user.created_at,
                 updated_at=user.updated_at,
             )
             self.session.add(user_model)
-            self.session.commit()
-            self.session.refresh(user_model)
+            await self.session.commit()
+            await self.session.refresh(user_model)
             return self._to_entity(user_model)
         except IntegrityError as e:
             logger.error(f"Erro de integridade ao criar usuário: {e}")
-            self.session.rollback()
+            await self.session.rollback()
             raise ValueError("Email já cadastrado")
         except Exception as e:
             logger.error(f"Erro ao criar usuário: {e}")
-            self.session.rollback()
+            await self.session.rollback()
             raise
 
-    def update(self, user: User) -> User:
+    async def update(self, user: User) -> User:
         try:
             logger.info(f"Atualizando usuário: {user.id}")
-            user_model = (
-                self.session.query(UserModel).filter(UserModel.id == user.id).first()
-            )
+            query = select(UserModel).where(UserModel.id == user.id)
+            result = await self.session.execute(query)
+            user_model = result.scalar_one_or_none()
+
             if not user_model:
                 raise ValueError(f"Usuário não encontrado: {user.id}")
 
             user_model.email = user.email.lower()
             user_model.password_hash = user.password_hash
+            user_model.name = user.name
+            user_model.photo = user.photo
             user_model.roles = user.roles
             user_model.is_active = user.is_active
             user_model.updated_at = datetime.utcnow()
 
-            self.session.commit()
-            self.session.refresh(user_model)
+            await self.session.commit()
+            await self.session.refresh(user_model)
             return self._to_entity(user_model)
         except IntegrityError as e:
             logger.error(f"Erro de integridade ao atualizar usuário: {e}")
-            self.session.rollback()
+            await self.session.rollback()
             raise ValueError("Email já cadastrado")
         except Exception as e:
             logger.error(f"Erro ao atualizar usuário: {e}")
-            self.session.rollback()
+            await self.session.rollback()
             raise
 
-    def delete(self, user_id: str) -> bool:
+    async def delete(self, user_id: str) -> bool:
         try:
             logger.info(f"Deletando usuário: {user_id}")
-            user_model = (
-                self.session.query(UserModel).filter(UserModel.id == user_id).first()
-            )
+            query = select(UserModel).where(UserModel.id == user_id)
+            result = await self.session.execute(query)
+            user_model = result.scalar_one_or_none()
+
             if not user_model:
                 return False
 
-            self.session.delete(user_model)
-            self.session.commit()
+            await self.session.delete(user_model)
+            await self.session.commit()
             return True
         except Exception as e:
             logger.error(f"Erro ao deletar usuário: {e}")
-            self.session.rollback()
+            await self.session.rollback()
             raise
 
-    def list_all(self) -> List[User]:
+    async def list_all(self) -> List[User]:
         try:
             logger.info("Listando todos os usuários")
-            user_models = self.session.query(UserModel).all()
+            query = select(UserModel)
+            result = await self.session.execute(query)
+            user_models = result.scalars().all()
             return [self._to_entity(model) for model in user_models]
         except Exception as e:
             logger.error(f"Erro ao listar usuários: {e}")

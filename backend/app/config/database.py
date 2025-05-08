@@ -2,9 +2,9 @@ import logging
 import os
 
 from dotenv import load_dotenv
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.pool import QueuePool
+from sqlalchemy.pool import AsyncAdaptedQueuePool
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
@@ -27,6 +27,10 @@ def get_database_url():
     if "@localhost:" in database_url:
         database_url = database_url.replace("@localhost:", "@postgres:")
 
+    # Converter a URL para async
+    if database_url.startswith("postgresql://"):
+        database_url = database_url.replace("postgresql://", "postgresql+asyncpg://")
+
     logger.info(f"Database URL: {database_url}")
     return database_url
 
@@ -34,9 +38,9 @@ def get_database_url():
 # Obter a URL do banco de dados
 DATABASE_URL = get_database_url()
 
-engine = create_engine(
+engine = create_async_engine(
     DATABASE_URL,
-    poolclass=QueuePool,
+    poolclass=AsyncAdaptedQueuePool,
     pool_size=5,
     max_overflow=10,
     pool_timeout=30,
@@ -44,13 +48,19 @@ engine = create_engine(
     echo=True,  # Adiciona logs SQL
 )
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+AsyncSessionLocal = sessionmaker(
+    engine,
+    class_=AsyncSession,
+    expire_on_commit=False,
+    autocommit=False,
+    autoflush=False,
+)
 Base = declarative_base()
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+async def get_db():
+    async with AsyncSessionLocal() as session:
+        try:
+            yield session
+        finally:
+            await session.close()

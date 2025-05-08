@@ -2,24 +2,28 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Instala dependências do sistema
+# 1) Dependências de sistema
 RUN apt-get update --fix-missing \
-    && apt-get install -y --no-install-recommends \
-        gcc \
-        libpq-dev \
-        netcat-openbsd \
-    && rm -rf /var/lib/apt/lists/*
+ && apt-get install -y --no-install-recommends \
+      gcc \
+      libpq-dev \
+      netcat-openbsd \
+      git \
+ && rm -rf /var/lib/apt/lists/*
 
-# Copia e instala dependências Python
+# 2) Instalação de dependências Python
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir alembic
 
-# Copia o código fonte
+# Instala dependências em ordem específica
+RUN python -m pip install --upgrade pip \
+ && python -m pip install --no-cache-dir cryptography==41.0.7 \
+ && python -m pip install --no-cache-dir python-jose[cryptography]==3.3.0 \
+ && python -m pip install --no-cache-dir -r requirements.txt \
+ && python -m pip install --no-cache-dir alembic
+
+# 3) Copia o código-fonte
 COPY . .
 
-# Torna o entrypoint executável
+# 4) Permissões e entrypoint
 RUN chmod +x entrypoint.sh
-
-# Define o entrypoint
 ENTRYPOINT ["./entrypoint.sh"]

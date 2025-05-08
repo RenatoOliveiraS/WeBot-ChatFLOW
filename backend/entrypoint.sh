@@ -9,14 +9,12 @@ wait_for_postgres() {
     echo "PostgreSQL está pronto!"
 }
 
-# Instala netcat para verificar a conexão com o PostgreSQL
-apt-get update && apt-get install -y netcat-openbsd
-
 # Aguarda o PostgreSQL ficar pronto
 wait_for_postgres
 
 # Configura o PYTHONPATH
 export PYTHONPATH=/app
+echo "PYTHONPATH: $PYTHONPATH"
 
 # Executa as migrações
 echo "Executando migrações..."

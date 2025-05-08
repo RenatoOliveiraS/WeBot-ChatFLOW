@@ -19,7 +19,7 @@ class AuthenticateUser:
         self.user_repository = user_repository
         self.secret_key = secret_key
 
-    def execute(self, email: str, password: str) -> str:
+    async def execute(self, email: str, password: str) -> str:
         """Executa o caso de uso."""
         logger.info(f"Tentando autenticar usuário: {email}")
 
@@ -27,7 +27,7 @@ class AuthenticateUser:
         login_request = LoginRequest(email=email, password=password)
 
         # Busca o usuário
-        user = self.user_repository.find_by_email(login_request.email)
+        user = await self.user_repository.find_by_email(login_request.email)
         if not user:
             logger.warning(f"Usuário não encontrado: {email}")
             raise ValueError("Usuário não encontrado")
