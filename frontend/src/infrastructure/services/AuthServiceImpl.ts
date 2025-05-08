@@ -20,6 +20,8 @@ export class AuthServiceImpl implements AuthService {
       const user: User = {
         id: response.id,
         email: response.email,
+        name: response.name,
+        photo: response.photo,
         roles: response.roles,
         token: response.access_token
       };

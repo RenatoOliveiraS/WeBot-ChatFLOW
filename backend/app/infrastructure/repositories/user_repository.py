@@ -7,7 +7,7 @@ from uuid import UUID
 from app.config.database import SessionLocal
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import IUserRepository
-from app.models.user import User as UserModel
+from app.infrastructure.models.user import UserModel
 
 logger = logging.getLogger(__name__)
 
@@ -35,6 +35,8 @@ class UserRepositoryImpl(IUserRepository):
             id=str(user_model.id),
             email=user_model.email,
             password_hash=user_model.password_hash,
+            name=user_model.name,
+            photo=user_model.photo,
             roles=user_model.roles or ["user"],
             is_active=user_model.is_active,
             created_at=user_model.created_at,
@@ -56,6 +58,8 @@ class UserRepositoryImpl(IUserRepository):
             id=str(user_model.id),
             email=user_model.email,
             password_hash=user_model.password_hash,
+            name=user_model.name,
+            photo=user_model.photo,
             roles=user_model.roles or ["user"],
             is_active=user_model.is_active,
             created_at=user_model.created_at,
@@ -68,6 +72,8 @@ class UserRepositoryImpl(IUserRepository):
         user_model = UserModel(
             email=user.email,
             password_hash=user.password_hash,
+            name=user.name,
+            photo=user.photo,
             roles=user.roles,
             is_active=user.is_active,
             created_at=user.created_at,
@@ -80,6 +86,8 @@ class UserRepositoryImpl(IUserRepository):
             id=str(user_model.id),
             email=user_model.email,
             password_hash=user_model.password_hash,
+            name=user_model.name,
+            photo=user_model.photo,
             roles=user_model.roles or ["user"],
             is_active=user_model.is_active,
             created_at=user_model.created_at,
@@ -97,6 +105,8 @@ class UserRepositoryImpl(IUserRepository):
 
         user_model.email = user.email
         user_model.password_hash = user.password_hash
+        user_model.name = user.name
+        user_model.photo = user.photo
         user_model.roles = user.roles
         user_model.is_active = user.is_active
         user_model.updated_at = datetime.utcnow()
@@ -107,6 +117,8 @@ class UserRepositoryImpl(IUserRepository):
             id=str(user_model.id),
             email=user_model.email,
             password_hash=user_model.password_hash,
+            name=user_model.name,
+            photo=user_model.photo,
             roles=user_model.roles or ["user"],
             is_active=user_model.is_active,
             created_at=user_model.created_at,
@@ -135,6 +147,8 @@ class UserRepositoryImpl(IUserRepository):
                 id=str(user_model.id),
                 email=user_model.email,
                 password_hash=user_model.password_hash,
+                name=user_model.name,
+                photo=user_model.photo,
                 roles=user_model.roles or ["user"],
                 is_active=user_model.is_active,
                 created_at=user_model.created_at,

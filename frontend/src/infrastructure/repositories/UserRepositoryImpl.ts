@@ -15,13 +15,10 @@ export class UserRepositoryImpl implements UserRepository {
   }
 
   async authenticate(credentials: LoginCredentials): Promise<LoginResponse> {
-    console.log('Tentando autenticar com:', credentials);
     try {
       const response = await this.api.post<LoginResponse>('/api/v1/auth/login', credentials);
-      console.log('Resposta da autenticação:', response.data);
       return response.data;
     } catch (error: any) {
-      console.error('Erro na autenticação:', error.response?.data || error.message);
       throw error;
     }
   }

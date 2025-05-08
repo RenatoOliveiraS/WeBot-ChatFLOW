@@ -59,6 +59,8 @@ async def login(
             is_active=user.is_active,
             created_at=user.created_at.isoformat(),
             updated_at=user.updated_at.isoformat(),
+            name=user.name,
+            photo=user.photo,
         )
 
         logger.info(f"Login bem sucedido para o email: {login_request.email}")

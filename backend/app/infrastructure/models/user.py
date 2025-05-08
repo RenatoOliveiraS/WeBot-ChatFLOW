@@ -30,6 +30,8 @@ class UserModel(Base):
     id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
     email = Column(String, nullable=False, unique=True)
     password_hash = Column(String, nullable=False)
+    name = Column(String, nullable=False)
+    photo = Column(String, nullable=True)
     roles = Column(JSONList, nullable=False, default=["user"])
     is_active = Column(Boolean, nullable=False, default=True)
     created_at = Column(DateTime, nullable=False, default=func.now())

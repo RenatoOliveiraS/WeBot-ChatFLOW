@@ -63,6 +63,8 @@ def sample_user():
         id=str(uuid.uuid4()),
         email="test@example.com",
         password_hash=pwd_context.hash("test_password"),
+        name="Usuário Teste",
+        photo=None,
         roles=["user"],
         is_active=True,
         created_at=datetime.utcnow(),

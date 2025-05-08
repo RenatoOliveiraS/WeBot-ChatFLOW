@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, EmailStr, Field, validator
 
@@ -10,7 +10,10 @@ class LoginRequest(BaseModel):
         ...,
         min_length=8,
         max_length=100,
-        description="Senha do usuário (mínimo 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial)",
+        description=(
+            "Senha do usuário (mínimo 8 caracteres, incluindo maiúscula, "
+            "minúscula, número e caractere especial)"
+        ),
     )
 
     @validator("email")
@@ -45,6 +48,10 @@ class LoginResponse(BaseModel):
     )
     updated_at: str = Field(
         ..., description="Data da última atualização do usuário em formato ISO"
+    )
+    name: str = Field(..., description="Nome do usuário")
+    photo: Optional[str] = Field(
+        None, description="URL da foto do usuário (pode ser null)"
     )
 
     class Config:

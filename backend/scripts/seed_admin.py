@@ -6,7 +6,7 @@ import bcrypt
 
 # Import the SQLAlchemy models and configuration
 from app.config.database import get_database_url
-from app.models.user import User
+from app.infrastructure.models.user import UserModel as User
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -52,6 +52,8 @@ def create_admin_user():
         admin_user = User(
             email=admin_email,
             password_hash=password_hash.decode("utf-8"),
+            name="Admin",
+            photo=None,
             roles=["admin"],
             is_active=True,
         )

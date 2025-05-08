@@ -12,6 +12,8 @@ class User:
         id: str,
         email: str,
         password_hash: str,
+        name: str,
+        photo: str,
         roles: List[str],
         is_active: bool,
         created_at: datetime,
@@ -21,6 +23,8 @@ class User:
         self.id = id
         self.email = email
         self.password_hash = password_hash
+        self.name = name
+        self.photo = photo
         self.roles = roles
         self.is_active = is_active
         self.created_at = created_at
@@ -28,7 +32,12 @@ class User:
 
     @classmethod
     def create(
-        cls, email: str, password_hash: str, roles: Optional[List[str]] = None
+        cls,
+        email: str,
+        password_hash: str,
+        name: str,
+        photo: str = None,
+        roles: Optional[List[str]] = None,
     ) -> "User":
         """Cria um novo usuário."""
         if not email:
@@ -36,6 +45,9 @@ class User:
 
         if not cls.validate_email(email):
             raise ValueError("Email inválido")
+
+        if not name:
+            raise ValueError("Nome não pode ser nulo")
 
         if not roles:
             roles = ["user"]
@@ -46,6 +58,8 @@ class User:
             id=str(uuid.uuid4()),
             email=email,
             password_hash=password_hash,
+            name=name,
+            photo=photo,
             roles=roles,
             is_active=True,
             created_at=datetime.utcnow(),
@@ -113,6 +127,8 @@ class User:
         return {
             "id": self.id,
             "email": self.email,
+            "name": self.name,
+            "photo": self.photo,
             "roles": self.roles,
             "is_active": self.is_active,
             "created_at": self.created_at.isoformat(),

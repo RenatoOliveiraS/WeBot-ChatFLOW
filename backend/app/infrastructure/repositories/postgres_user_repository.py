@@ -135,6 +135,8 @@ class PostgresUserRepository(IUserRepository):
             id=model.id,
             email=model.email,
             password_hash=model.password_hash,
+            name=model.name,
+            photo=model.photo,
             roles=model.roles,
             is_active=model.is_active,
             created_at=model.created_at,

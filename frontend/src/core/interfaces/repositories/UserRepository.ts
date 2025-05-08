@@ -7,6 +7,8 @@ export interface LoginResponse {
   expires_in: number;
   id: string;
   email: string;
+  name: string;
+  photo?: string;
   roles: string[];
   is_active: boolean;
   created_at: string;
