@@ -1,61 +1,40 @@
 import * as React from 'react';
 import { useTranslation } from 'react-i18next';
-import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
+import IconButton from '@mui/joy/IconButton';
+import Menu from '@mui/joy/Menu';
+import MenuButton from '@mui/joy/MenuButton';
+import MenuItem from '@mui/joy/MenuItem';
+import Dropdown from '@mui/joy/Dropdown';
+import Tooltip from '@mui/joy/Tooltip';
 import LanguageIcon from '@mui/icons-material/Language';
-import { SxProps, Theme } from '@mui/material/styles';
+import { SxProps } from '@mui/joy/styles';
 
 interface LanguageSelectProps {
-  sx?: SxProps<Theme>;
+  sx?: SxProps;
 }
 
 export default function LanguageSelect({ sx }: LanguageSelectProps) {
   const { i18n } = useTranslation();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleLanguageChange = (language: string) => {
     i18n.changeLanguage(language);
-    handleClose();
   };
 
   return (
-    <>
+    <Dropdown>
       <Tooltip title="Mudar idioma">
-        <IconButton
-          onClick={handleClick}
-          size="small"
-          sx={{ ml: 2, ...sx }}
-          aria-controls={open ? 'language-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}
+        <MenuButton
+          slots={{ root: IconButton }}
+          slotProps={{ root: { variant: 'plain', color: 'neutral', size: 'sm', sx } }}
         >
           <LanguageIcon />
-        </IconButton>
+        </MenuButton>
       </Tooltip>
-      <Menu
-        anchorEl={anchorEl}
-        id="language-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
+      <Menu>
         <MenuItem onClick={() => handleLanguageChange('pt')}>Português</MenuItem>
         <MenuItem onClick={() => handleLanguageChange('en')}>English</MenuItem>
         <MenuItem onClick={() => handleLanguageChange('es')}>Español</MenuItem>
       </Menu>
-    </>
+    </Dropdown>
   );
 } 

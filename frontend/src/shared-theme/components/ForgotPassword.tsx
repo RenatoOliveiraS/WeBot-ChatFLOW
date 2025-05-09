@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import OutlinedInput from '@mui/material/OutlinedInput';
+import Button from '@mui/joy/Button';
+import Modal from '@mui/joy/Modal';
+import ModalDialog from '@mui/joy/ModalDialog';
+import ModalClose from '@mui/joy/ModalClose';
+import Typography from '@mui/joy/Typography';
+import Input from '@mui/joy/Input';
+import Stack from '@mui/joy/Stack';
 
 interface ForgotPasswordProps {
   open: boolean;
@@ -13,47 +13,50 @@ interface ForgotPasswordProps {
 }
 
 export default function ForgotPassword({ open, handleClose }: ForgotPasswordProps) {
-  const handleSubmit = (event: React.FormEvent<HTMLDivElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     handleClose();
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={handleClose}
-      component="form"
-      onSubmit={handleSubmit}
-      PaperProps={{
-        sx: { backgroundImage: 'none' }
-      }}
-    >
-      <DialogTitle>Reset password</DialogTitle>
-      <DialogContent
-        sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: '100%' }}
+    <Modal open={open} onClose={handleClose}>
+      <ModalDialog
+        component="form"
+        onSubmit={handleSubmit}
+        sx={{
+          maxWidth: 500,
+          width: '100%',
+          p: 3,
+        }}
       >
-        <DialogContentText>
-          Enter your account&apos;s email address, and we&apos;ll send you a link to
-          reset your password.
-        </DialogContentText>
-        <OutlinedInput
-          autoFocus
-          required
-          margin="dense"
-          id="email"
-          name="email"
-          label="Email address"
-          placeholder="Email address"
-          type="email"
-          fullWidth
-        />
-      </DialogContent>
-      <DialogActions sx={{ pb: 3, px: 3 }}>
-        <Button onClick={handleClose}>Cancel</Button>
-        <Button variant="contained" type="submit">
-          Continue
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <ModalClose />
+        <Typography level="h4" component="h2" mb={2}>
+          Reset password
+        </Typography>
+        <Stack spacing={2}>
+          <Typography level="body-md">
+            Enter your account&apos;s email address, and we&apos;ll send you a link to
+            reset your password.
+          </Typography>
+          <Input
+            autoFocus
+            required
+            id="email"
+            name="email"
+            placeholder="Email address"
+            type="email"
+            fullWidth
+          />
+          <Stack direction="row" spacing={1} justifyContent="flex-end" mt={2}>
+            <Button variant="plain" color="neutral" onClick={handleClose}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              Continue
+            </Button>
+          </Stack>
+        </Stack>
+      </ModalDialog>
+    </Modal>
   );
 }

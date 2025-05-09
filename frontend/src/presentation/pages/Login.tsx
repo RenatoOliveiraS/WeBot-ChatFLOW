@@ -3,44 +3,24 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../contexts/AuthContext';
 import { LoginCredentials } from '../../core/domain/entities/User';
-import Alert from '@mui/material/Alert';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import CssBaseline from '@mui/material/CssBaseline';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormLabel from '@mui/material/FormLabel';
-import FormControl from '@mui/material/FormControl';
-import Link from '@mui/material/Link';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
-import MuiCard from '@mui/material/Card';
-import { styled } from '@mui/material/styles';
+import Alert from '@mui/joy/Alert';
+import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Checkbox from '@mui/joy/Checkbox';
+import CssBaseline from '@mui/joy/CssBaseline';
+import FormControl from '@mui/joy/FormControl';
+import FormLabel from '@mui/joy/FormLabel';
+import Input from '@mui/joy/Input';
+import Link from '@mui/joy/Link';
+import Typography from '@mui/joy/Typography';
+import Stack from '@mui/joy/Stack';
+import Card from '@mui/joy/Card';
+import { styled } from '@mui/joy/styles';
 import ForgotPassword from '../../shared-theme/components/ForgotPassword';
 import AppTheme from '../../shared-theme/AppTheme';
-import ColorModeSelect from '../../shared-theme/ColorModeSelect';
+import ColorSchemeToggle from '../../shared-theme/components/ColorSchemeToggle';
 import LanguageSelect from '../../shared-theme/LanguageSelect';
 import { LogoIcon } from '../../shared-theme/components/CustomIcons';
-
-const Card = styled(MuiCard)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
-  padding: theme.spacing(4),
-  gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
-  },
-  boxShadow:
-    'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
-  ...theme.applyStyles('dark', {
-    boxShadow:
-      'hsla(220, 30%, 5%, 0.5) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.08) 0px 15px 35px -5px',
-  }),
-}));
 
 const SignInContainer = styled(Stack)(({ theme }) => ({
   height: 'calc((1 - var(--template-frame-height, 0)) * 100dvh)',
@@ -49,6 +29,9 @@ const SignInContainer = styled(Stack)(({ theme }) => ({
   [theme.breakpoints.up('sm')]: {
     padding: theme.spacing(4),
   },
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
   '&::before': {
     content: '""',
     display: 'block',
@@ -74,6 +57,24 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   const [passwordError, setPasswordError] = React.useState(false);
   const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
   const [open, setOpen] = React.useState(false);
+  const [rememberMe, setRememberMe] = React.useState(() => {
+    const saved = localStorage.getItem('rememberMe');
+    return saved ? JSON.parse(saved) : false;
+  });
+  const [email, setEmail] = React.useState(() => {
+    return rememberMe ? localStorage.getItem('savedEmail') || '' : '';
+  });
+  const [password, setPassword] = React.useState('');
+
+  const handleRememberMeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked;
+    setRememberMe(isChecked);
+    localStorage.setItem('rememberMe', JSON.stringify(isChecked));
+    
+    if (!isChecked) {
+      localStorage.removeItem('savedEmail');
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -85,11 +86,14 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     const credentials: LoginCredentials = {
-      email: String(data.get('email')),
-      password: String(data.get('password')),
+      email,
+      password,
     };
+
+    if (rememberMe) {
+      localStorage.setItem('savedEmail', email);
+    }
 
     try {
       await login(credentials);
@@ -100,12 +104,9 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
   };
 
   const validateInputs = () => {
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-
     let isValid = true;
 
-    if (!email.value || !/\S+@\S+\.\S+/.test(email.value)) {
+    if (!email || !/\S+@\S+\.\S+/.test(email)) {
       setEmailError(true);
       setEmailErrorMessage(t('login.emailError'));
       isValid = false;
@@ -114,7 +115,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
       setEmailErrorMessage('');
     }
 
-    if (!password.value || password.value.length < 6) {
+    if (!password || password.length < 6) {
       setPasswordError(true);
       setPasswordErrorMessage(t('login.passwordError'));
       isValid = false;
@@ -128,25 +129,34 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
 
   return (
     <AppTheme {...props}>
-      <CssBaseline enableColorScheme />
-      <SignInContainer direction="column" justifyContent="space-between">
-        <Box sx={{ position: 'fixed', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center' }}>
-          <ColorModeSelect />
+      <CssBaseline />
+      <SignInContainer>
+        <Box sx={{ position: 'fixed', top: '1rem', right: '1rem', display: 'flex', alignItems: 'center', gap: 2 }}>
+          <ColorSchemeToggle />
           <LanguageSelect />
         </Box>
-        <Card variant="outlined">
+        <Card 
+          variant="outlined" 
+          sx={{ 
+            width: '100%', 
+            maxWidth: '450px',
+            p: 4,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 2,
+          }}
+        >
           <Box sx={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
             <LogoIcon />
           </Box>
           <Typography
-            component="h1"
-            variant="h4"
+            level="h1"
             sx={{ width: '100%', fontSize: 'clamp(2rem, 10vw, 2.15rem)' }}
           >
             {t('login.title')}
           </Typography>
           {loginError && (
-            <Alert severity="error" sx={{ width: '100%', mt: 2 }}>
+            <Alert color="danger" sx={{ width: '100%', mt: 2 }}>
               {loginError}
             </Alert>
           )}
@@ -163,9 +173,8 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
           >
             <FormControl>
               <FormLabel htmlFor="email">{t('login.email')}</FormLabel>
-              <TextField
+              <Input
                 error={emailError}
-                helperText={emailErrorMessage}
                 id="email"
                 type="email"
                 name="email"
@@ -174,38 +183,50 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 autoFocus
                 required
                 fullWidth
-                variant="outlined"
-                color={emailError ? 'error' : 'primary'}
+                color={emailError ? 'danger' : 'neutral'}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              {emailErrorMessage && (
+                <Typography level="body-sm" color="danger">
+                  {emailErrorMessage}
+                </Typography>
+              )}
             </FormControl>
             <FormControl>
               <FormLabel htmlFor="password">{t('login.password')}</FormLabel>
-              <TextField
+              <Input
                 error={passwordError}
-                helperText={passwordErrorMessage}
                 name="password"
                 placeholder={t('login.passwordPlaceholder')}
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                autoFocus
                 required
                 fullWidth
-                variant="outlined"
-                color={passwordError ? 'error' : 'primary'}
+                color={passwordError ? 'danger' : 'neutral'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              {passwordErrorMessage && (
+                <Typography level="body-sm" color="danger">
+                  {passwordErrorMessage}
+                </Typography>
+              )}
             </FormControl>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+            <Checkbox
               label={t('login.rememberMe')}
+              size="sm"
+              checked={rememberMe}
+              onChange={handleRememberMeChange}
             />
             <ForgotPassword open={open} handleClose={handleClose} />
             <Button
               type="submit"
               fullWidth
-              variant="contained"
+              variant="solid"
               onClick={validateInputs}
-              disabled={loading}
+              loading={loading}
             >
               {loading ? t('login.loading') : t('login.signIn')}
             </Button>
@@ -213,7 +234,7 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
               component="button"
               type="button"
               onClick={handleClickOpen}
-              variant="body2"
+              level="body-sm"
               sx={{ alignSelf: 'center' }}
             >
               {t('login.forgotPassword')}

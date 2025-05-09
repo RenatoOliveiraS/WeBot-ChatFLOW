@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
@@ -15,11 +14,11 @@ import Sidebar from './Sidebar';
 import OrderTable from '../../shared-theme/components/OrderTable';
 import OrderList from '../../shared-theme/components/OrderList';
 import Header from '../../shared-theme/components/Header';
+import AppTheme from '../../shared-theme/AppTheme';
 
 export default function JoyOrderDashboardTemplate() {
   return (
-    <CssVarsProvider disableTransitionOnChange>
-      <CssBaseline />
+    <AppTheme>
       <Box sx={{ display: 'flex', minHeight: '100dvh' }}>
         <Header />
         <Sidebar />
@@ -42,60 +41,9 @@ export default function JoyOrderDashboardTemplate() {
             gap: 1,
           }}
         >
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Breadcrumbs
-              size="sm"
-              aria-label="breadcrumbs"
-              separator={<ChevronRightRoundedIcon fontSize="small" />}
-              sx={{ pl: 0 }}
-            >
-              <Link
-                underline="none"
-                color="neutral"
-                href="#some-link"
-                aria-label="Home"
-              >
-                <HomeRoundedIcon />
-              </Link>
-              <Link
-                underline="hover"
-                color="neutral"
-                href="#some-link"
-                sx={{ fontSize: 12, fontWeight: 500 }}
-              >
-                Dashboard
-              </Link>
-              <Typography color="primary" sx={{ fontWeight: 500, fontSize: 12 }}>
-                Orders
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              mb: 1,
-              gap: 1,
-              flexDirection: { xs: 'column', sm: 'row' },
-              alignItems: { xs: 'start', sm: 'center' },
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography level="h2" component="h1">
-              Orders
-            </Typography>
-            <Button
-              color="primary"
-              startDecorator={<DownloadRoundedIcon />}
-              size="sm"
-            >
-              Download PDF
-            </Button>
-          </Box>
-          <OrderTable />
-          <OrderList />
+          <Typography level="h1">Hello World</Typography>
         </Box>
       </Box>
-    </CssVarsProvider>
+    </AppTheme>
   );
 }
