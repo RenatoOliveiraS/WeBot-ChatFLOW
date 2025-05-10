@@ -1,7 +1,5 @@
 import { Theme, Components } from '@mui/material/styles';
 import { alpha } from '@mui/system';
-import { ButtonBase as MuiButtonBase } from '@mui/material';
-import { Divider as MuiDivider } from '@mui/material';
 import { gray, brand } from '../themePrimitives';
 
 interface CustomTheme extends Theme {
