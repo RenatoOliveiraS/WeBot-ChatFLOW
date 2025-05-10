@@ -1,7 +1,7 @@
 import { Theme, Components } from '@mui/joy/styles';
 import { gray } from '../themePrimitives';
 
-type StyleOverrides = {
+type _StyleOverrides = {
   padding?: number | string;
   gap?: number;
   transition?: string;
@@ -15,19 +15,6 @@ type StyleOverrides = {
   }>;
   overflow?: string;
   borderColor?: string;
-};
-
-type JoyComponents = {
-  JoyCard?: {
-    styleOverrides?: {
-      root?: (props: { theme: Theme }) => Partial<StyleOverrides>;
-    };
-  };
-  JoySheet?: {
-    styleOverrides?: {
-      root?: (props: { theme: Theme }) => Partial<StyleOverrides>;
-    };
-  };
 };
 
 export const surfacesCustomizations: Components<Theme> = {
