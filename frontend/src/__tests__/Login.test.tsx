@@ -4,6 +4,7 @@ import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import Login from '../presentation/pages/Login'
 import { LoginCredentials } from '../core/interfaces/dtos/LoginCredentials'
+import { User } from '../core/interfaces/User'
 import { render as customRender, mockAuthService } from './test-utils'
 
 // Mock do módulo de ambiente
@@ -53,12 +54,17 @@ describe('Login Page', () => {
   })
 
   it('should redirect to dashboard on successful login', async () => {
-    mockAuthService.login.mockResolvedValueOnce({
+    const mockUser: User = {
       id: '1',
       email: 'test@example.com',
+      name: 'Test User',
       roles: ['user'],
+      is_active: true,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
       token: 'mock-token-123'
-    })
+    }
+    mockAuthService.login.mockResolvedValueOnce(mockUser)
     renderLogin()
 
     const emailInput = screen.getByPlaceholderText(/your@email.com/i)
