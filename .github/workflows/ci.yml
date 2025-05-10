@@ -28,6 +28,15 @@ jobs:
         pip install -e .
         pip install -r requirements.txt
 
+    - name: Format code
+      run: |
+        # Primeiro rodamos o isort
+        isort .
+        # Depois rodamos o black
+        black .
+        # Verificamos se há mudanças não commitadas
+        git diff --exit-code || (echo "❌ Code formatting check failed. Please run 'isort .' and 'black .' locally and commit the changes." && exit 1)
+
     - name: Run tests with coverage
       run: |
         pytest --cov=app --cov-report=xml:coverage.xml app/tests/
