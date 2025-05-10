@@ -37,6 +37,8 @@ jobs:
         ls -la coverage.xml
 
     - name: Upload coverage to Codecov
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       uses: codecov/codecov-action@v3
       with:
         directory: ./backend
@@ -45,7 +47,6 @@ jobs:
         flags: unittests
         name: codecov-umbrella
         verbose: true
-        token: ${{ secrets.CODECOV_TOKEN }}
 
   test-frontend:
     runs-on: ubuntu-latest
