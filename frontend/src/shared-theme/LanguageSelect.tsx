@@ -7,7 +7,7 @@ import MenuItem from '@mui/joy/MenuItem';
 import Dropdown from '@mui/joy/Dropdown';
 import Tooltip from '@mui/joy/Tooltip';
 import LanguageIcon from '@mui/icons-material/Language';
-import { SxProps } from '@mui/joy/styles';
+import { SxProps } from '@mui/system';
 
 interface LanguageSelectProps {
   sx?: SxProps;
