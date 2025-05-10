@@ -104,13 +104,13 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./backend
-          file: Dockerfile
+          file: ./backend/Dockerfile
           push: false
           tags: webot-chatflow-backend:pr-${{ github.event.number }}
       - name: Build Frontend Image
         uses: docker/build-push-action@v4
         with:
           context: ./frontend
-          file: Dockerfile
+          file: ./frontend/Dockerfile
           push: false
           tags: webot-chatflow-frontend:pr-${{ github.event.number }}
