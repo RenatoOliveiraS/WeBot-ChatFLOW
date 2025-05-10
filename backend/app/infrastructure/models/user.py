@@ -1,9 +1,10 @@
 import json
 import uuid
 
-from app.config.database import Base
 from sqlalchemy import Boolean, Column, DateTime, String, func
 from sqlalchemy.types import TEXT, TypeDecorator
+
+from app.config.database import Base
 
 
 class JSONList(TypeDecorator):

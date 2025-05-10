@@ -1,8 +1,9 @@
+from passlib.context import CryptContext
+
 from app.core.exceptions import BusinessError
 from app.domain.dtos.user import CreateUserDTO
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import IUserRepository
-from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

@@ -1,5 +1,9 @@
 import os
 
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.v1.routes.auth_routes import router as auth_router
 from app.api.v1.routes.user_routes import router as user_router
 from app.core.exception_handlers import (
@@ -18,9 +22,6 @@ from app.core.exceptions import (
     UnauthorizedError,
     ValidationError,
 )
-from dotenv import load_dotenv
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 # Carrega as variáveis de ambiente
 load_dotenv()

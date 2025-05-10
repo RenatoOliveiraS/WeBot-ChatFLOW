@@ -3,12 +3,13 @@ import logging
 import os
 import traceback
 
+from dotenv import load_dotenv
+from fastapi import APIRouter, HTTPException, status
+
 from app.core.dependencies import UserRepositoryDep
 from app.core.exceptions import AuthenticationError
 from app.domain.dtos.auth import LoginRequest, LoginResponse
 from app.use_cases.auth.authenticate_user import AuthenticateUser
-from dotenv import load_dotenv
-from fastapi import APIRouter, HTTPException, status
 
 # Configuração do logger
 logging.basicConfig(

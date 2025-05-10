@@ -4,12 +4,12 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
+from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
 
 # Import the SQLAlchemy models and configuration
 from app.config.database import DATABASE_URL
 from app.models.user import Base
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config, pool
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
@@ -29,8 +29,10 @@ load_dotenv(dotenv_path=env_path)
 config = context.config
 
 # Set the SQLAlchemy URL in the alembic.ini file
-config.set_main_option("sqlalchemy.url", DATABASE_URL)
-logger.info(f"Database URL: {DATABASE_URL}")
+# Troca asyncpg por psycopg2 para as migrations
+sync_database_url = DATABASE_URL.replace("asyncpg", "psycopg2")
+config.set_main_option("sqlalchemy.url", sync_database_url)
+logger.info(f"Database URL (sync for Alembic): {sync_database_url}")
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:

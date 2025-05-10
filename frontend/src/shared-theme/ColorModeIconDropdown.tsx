@@ -2,12 +2,14 @@ import * as React from 'react';
 import DarkModeIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightModeRounded';
 import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
+import IconButton, { IconButtonProps } from '@mui/joy/IconButton';
 import Menu from '@mui/joy/Menu';
 import MenuItem from '@mui/joy/MenuItem';
 import { useColorScheme } from '@mui/joy/styles';
 
-export default function ColorModeIconDropdown(props: any) {
+type ColorModeIconDropdownProps = Omit<IconButtonProps, 'children'>;
+
+export default function ColorModeIconDropdown(props: ColorModeIconDropdownProps) {
   const { mode, systemMode, setMode } = useColorScheme();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

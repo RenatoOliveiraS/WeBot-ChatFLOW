@@ -180,7 +180,6 @@ export default function SignIn(props: { disableCustomTheme?: boolean }) {
                 name="email"
                 placeholder={t('login.emailPlaceholder')}
                 autoComplete="email"
-                autoFocus
                 required
                 fullWidth
                 color={emailError ? 'danger' : 'neutral'}

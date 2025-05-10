@@ -1,5 +1,7 @@
 from typing import List
 
+from fastapi import APIRouter, Depends, HTTPException, status
+
 from app.core.dependencies import UserRepositoryDep, get_current_user
 from app.domain.dtos.user import CreateUserDTO, UpdateUserDTO, UserResponseDTO
 from app.domain.entities.user import User
@@ -7,7 +9,6 @@ from app.use_cases.user.create_user import CreateUser
 from app.use_cases.user.delete_user import DeleteUser
 from app.use_cases.user.list_users import ListUsers
 from app.use_cases.user.update_user import UpdateUser
-from fastapi import APIRouter, Depends, HTTPException, status
 
 router = APIRouter(prefix="/users", tags=["users"])
 

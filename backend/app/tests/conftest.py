@@ -2,10 +2,11 @@ import uuid
 from datetime import datetime
 
 import pytest
+from passlib.context import CryptContext
+
 from app.domain.entities.user import User
 from app.tests.test_config import Base, TestSessionLocal, test_engine
 from app.tests.test_repository import TestUserRepository
-from passlib.context import CryptContext
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

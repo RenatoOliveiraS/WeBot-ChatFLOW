@@ -10,7 +10,7 @@ interface AppThemeProps {
   disableCustomTheme?: boolean;
 }
 
-export default function AppTheme({ children, disableCustomTheme = false }: AppThemeProps) {
+export default function AppTheme({ children, disableCustomTheme: _disableCustomTheme = false }: AppThemeProps) {
   return (
     <CssVarsProvider
       defaultMode="light"

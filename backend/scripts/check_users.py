@@ -2,10 +2,11 @@ import logging
 import sys
 from pathlib import Path
 
+from sqlalchemy import text
+
 # Import the SQLAlchemy models and configuration
 from app.config.database import SessionLocal
 from app.models.user import User
-from sqlalchemy import text
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
