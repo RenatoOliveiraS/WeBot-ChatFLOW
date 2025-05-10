@@ -3,22 +3,39 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Services
+# Services and API Guide
 
 ## Frontend Services
-- [frontend/src/services/AuthService.ts](mdc:frontend/src/services/AuthService.ts) - Authentication service for login/logout
-- [frontend/src/services/UserService.ts](mdc:frontend/src/services/UserService.ts) - User management service
+- `frontend/src/services/`
+  - `AuthService.ts` - Authentication and user management
+  - `EmailService.ts` - Email communication
+  - `WebSocketService.ts` - Real-time updates
 
-## Backend Services
-- [backend/app/services/auth_service.py](mdc:backend/app/services/auth_service.py) - Backend authentication service
-- [backend/app/services/user_service.py](mdc:backend/app/services/user_service.py) - Backend user management service
+## Backend API Endpoints
+- Authentication
+  - `POST /api/v1/auth/login` - User login
+  - `POST /api/v1/auth/refresh` - Token refresh
+  - `POST /api/v1/auth/logout` - User logout
 
-## API Endpoints
-- `/auth/login` - User authentication
-- `/auth/me` - Get current user info
-- `/users` - User management endpoints
-  - GET - List users
-  - POST - Create user
-  - PUT - Update user
-  - DELETE - Delete user
+- Email Management
+  - `GET /api/v1/emails` - List emails
+  - `POST /api/v1/emails` - Send email
+  - `GET /api/v1/emails/{id}` - Get email details
+
+## WebSocket Endpoints
+- `ws://<host>/ws/email` - Real-time email communication
+  - `send_email` - Send email action
+  - `new_message` - New message notification
+
+## Database Services
+- `backend/app/infrastructure/repositories/`
+  - `PostgresUserRepository` - User data persistence
+  - `PostgresEmailRepository` - Email data persistence
+
+## Cache Services
+- Redis for:
+  - Session management
+  - Real-time notifications
+  - Event streaming
+
 

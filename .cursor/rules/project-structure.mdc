@@ -3,31 +3,32 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Project Structure
-
-This is a full-stack application with separate frontend and backend directories.
+# Project Structure Guide
 
 ## Frontend Structure
-- `frontend/src/` - Main source code directory
-  - `presentation/` - React components and pages
-    - `pages/` - Main page components
-    - `components/` - Reusable UI components
-    - `contexts/` - React context providers
-    - `routes/` - Application routing configuration
-  - `services/` - API service classes
-  - `i18n/` - Internationalization files
-  - `shared-theme/` - Theme configuration and components
+- `frontend/src/presentation/routes/index.tsx` - Main routing configuration
+- `frontend/src/services/AuthService.ts` - Authentication service
+- `frontend/src/shared-theme/` - Theme and UI components
+- `frontend/src/i18n/` - Internationalization files
 
 ## Backend Structure
 - `backend/app/` - Main application code
-  - `api/` - API endpoints and controllers
-  - `core/` - Core business logic
-  - `models/` - Database models
-  - `services/` - Business services
-  - `utils/` - Utility functions
+  - `domain/` - Domain entities and business logic
+  - `infrastructure/` - Database and external service implementations
+  - `use_cases/` - Application use cases
+  - `tests/` - Test files
+    - `integration/` - Integration tests
+    - `conftest.py` - Test configurations and fixtures
 
-## Key Files
-- [frontend/src/presentation/routes/index.tsx](mdc:frontend/src/presentation/routes/index.tsx) - Main routing configuration
-- [frontend/src/presentation/pages/Sidebar.tsx](mdc:frontend/src/presentation/pages/Sidebar.tsx) - Main navigation sidebar
-- [frontend/src/services/AuthService.ts](mdc:frontend/src/services/AuthService.ts) - Authentication service
+## Key Components
+- Authentication: OAuth2/JWT based authentication
+- WebSocket: Real-time email communication
+- Database: PostgreSQL for persistence
+- Cache: Redis for caching and event streaming
+
+## Testing
+- Backend: pytest with 90% coverage requirement
+- Frontend: Jest + React Testing Library
+- Integration tests in `backend/app/tests/integration/`
+
 

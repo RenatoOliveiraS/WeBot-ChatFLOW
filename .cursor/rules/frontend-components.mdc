@@ -3,22 +3,36 @@ description:
 globs: 
 alwaysApply: false
 ---
-# Frontend Components
+# Frontend Components Guide
 
 ## Pages
-- [frontend/src/presentation/pages/Login.tsx](mdc:frontend/src/presentation/pages/Login.tsx) - Login page with authentication
-- [frontend/src/presentation/pages/Dashboard.tsx](mdc:frontend/src/presentation/pages/Dashboard.tsx) - Main dashboard page
-- [frontend/src/presentation/pages/UserList.tsx](mdc:frontend/src/presentation/pages/UserList.tsx) - User management page
+- `frontend/src/presentation/pages/` - Main page components
+  - `Login.tsx` - Authentication page
+  - `Dashboard.tsx` - Main application dashboard
+  - `EmailEditor.tsx` - Rich text email editor
 
 ## Layout Components
-- [frontend/src/presentation/pages/Sidebar.tsx](mdc:frontend/src/presentation/pages/Sidebar.tsx) - Main navigation sidebar
-- [frontend/src/presentation/components/Header.tsx](mdc:frontend/src/presentation/components/Header.tsx) - Application header
+- `frontend/src/presentation/components/` - Reusable layout components
+  - `Sidebar.tsx` - Main navigation sidebar
+  - `Header.tsx` - Application header
+  - `Layout.tsx` - Main layout wrapper
 
 ## Theme Components
-- [frontend/src/shared-theme/components/ThemeRegistry.tsx](mdc:frontend/src/shared-theme/components/ThemeRegistry.tsx) - Theme provider component
-- [frontend/src/shared-theme/theme.ts](mdc:frontend/src/shared-theme/theme.ts) - Theme configuration
+- `frontend/src/shared-theme/` - Theme and UI components
+  - `theme.ts` - Theme configuration
+  - `ColorModeIconDropdown.tsx` - Theme mode switcher
+  - `LanguageSelect.tsx` - Language selector
 
 ## Context Providers
-- [frontend/src/presentation/contexts/AuthContext.tsx](mdc:frontend/src/presentation/contexts/AuthContext.tsx) - Authentication context
-- [frontend/src/presentation/contexts/LanguageContext.tsx](mdc:frontend/src/presentation/contexts/LanguageContext.tsx) - Language context
+- `frontend/src/presentation/contexts/` - React context providers
+  - `AuthContext.tsx` - Authentication state
+  - `ThemeContext.tsx` - Theme state
+  - `LanguageContext.tsx` - Internationalization state
+
+## Services
+- `frontend/src/services/` - API service classes
+  - `AuthService.ts` - Authentication service
+  - `EmailService.ts` - Email communication service
+  - `WebSocketService.ts` - Real-time communication
+
 

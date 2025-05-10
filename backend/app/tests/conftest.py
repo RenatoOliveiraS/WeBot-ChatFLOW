@@ -9,56 +9,60 @@ from app.infrastructure.repositories.postgres_user_repository import (
 )
 from app.use_cases.auth.authenticate_user import AuthenticateUser
 from passlib.context import CryptContext
-from sqlalchemy import create_engine
+from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 
 @pytest.fixture(scope="session")
-def engine():
-    """Cria um engine do SQLAlchemy para os testes."""
-    return create_engine("sqlite:///:memory:")
-
-
-@pytest.fixture(scope="session")
-def tables(engine):
-    """Cria as tabelas no banco de dados."""
-    Base.metadata.create_all(engine)
-    yield
-    Base.metadata.drop_all(engine)
-
-
-@pytest.fixture
-def db_session(engine, tables):
-    """Cria uma sessão do SQLAlchemy."""
-    connection = engine.connect()
-    transaction = connection.begin()
-    Session = sessionmaker(bind=connection)
-    session = Session()
-
-    yield session
-
-    session.close()
-    transaction.rollback()
-    connection.close()
+async def engine():
+    """Creates an SQLAlchemy engine with in-memory database."""
+    engine = create_async_engine(
+        "sqlite+aiosqlite:///:memory:", echo=False, future=True
+    )
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    yield engine
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.drop_all)
+    await engine.dispose()
 
 
 @pytest.fixture
-def user_repository(db_session):
-    """Cria um repositório de usuários."""
+def async_session_maker(engine):
+    """Creates a session factory."""
+    return sessionmaker(
+        engine,
+        class_=AsyncSession,
+        expire_on_commit=False,
+        autocommit=False,
+        autoflush=False,
+    )
+
+
+@pytest.fixture
+async def db_session(async_session_maker):
+    """Creates a new database session for a test."""
+    async with async_session_maker() as session:
+        yield session
+
+
+@pytest.fixture
+async def user_repository(db_session):
+    """Creates a user repository instance."""
     return PostgresUserRepository(db_session)
 
 
 @pytest.fixture
-def authenticate_user(user_repository):
-    """Cria o caso de uso de autenticação."""
+async def authenticate_user(user_repository):
+    """Creates an authentication use case instance."""
     return AuthenticateUser(user_repository, "test_secret_key")
 
 
 @pytest.fixture
 def sample_user():
-    """Cria um usuário de exemplo."""
+    """Creates a sample user for testing."""
     return User(
         id=str(uuid.uuid4()),
         email="test@example.com",
