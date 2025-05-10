@@ -1,4 +1,5 @@
-import { User, LoginCredentials } from '../../core/domain/entities/User';
+import { LoginCredentials } from '../../core/domain/entities/User';
+import { User } from '../../core/interfaces/User';
 import { AuthService } from '../../core/interfaces/services/AuthService';
 import { UserRepository } from '../../core/interfaces/repositories/UserRepository';
 import i18n from '../../i18n';
@@ -23,6 +24,9 @@ export class AuthServiceImpl implements AuthService {
         name: response.name,
         photo: response.photo,
         roles: response.roles,
+        is_active: response.is_active,
+        created_at: response.created_at,
+        updated_at: response.updated_at,
         token: response.access_token
       };
       

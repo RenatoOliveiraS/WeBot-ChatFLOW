@@ -1,19 +1,15 @@
-import { alpha, Theme, Components } from '@mui/material/styles';
+import { Theme, Components } from '@mui/joy/styles';
 import { gray } from '../themePrimitives';
 
 export const surfacesCustomizations: Components<Theme> = {
-  MuiAccordion: {
-    defaultProps: {
-      elevation: 0,
-      disableGutters: true,
-    },
+  JoyAccordion: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ theme }: { theme: Theme }) => ({
         padding: 4,
         overflow: 'clip',
-        backgroundColor: (theme.vars || theme).palette.background.default,
+        backgroundColor: theme.palette.background.surface,
         border: '1px solid',
-        borderColor: (theme.vars || theme).palette.divider,
+        borderColor: theme.palette.divider,
         ':before': {
           backgroundColor: 'transparent',
         },
@@ -21,19 +17,19 @@ export const surfacesCustomizations: Components<Theme> = {
           borderBottom: 'none',
         },
         '&:first-of-type': {
-          borderTopLeftRadius: (theme.vars || theme).shape.borderRadius,
-          borderTopRightRadius: (theme.vars || theme).shape.borderRadius,
+          borderTopLeftRadius: theme.radius.sm,
+          borderTopRightRadius: theme.radius.sm,
         },
         '&:last-of-type': {
-          borderBottomLeftRadius: (theme.vars || theme).shape.borderRadius,
-          borderBottomRightRadius: (theme.vars || theme).shape.borderRadius,
+          borderBottomLeftRadius: theme.radius.sm,
+          borderBottomRightRadius: theme.radius.sm,
         },
       }),
     },
   },
-  MuiAccordionSummary: {
+  JoyAccordionSummary: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ theme }: { theme: Theme }) => ({
         border: 'none',
         borderRadius: 8,
         '&:hover': { backgroundColor: gray[50] },
@@ -44,26 +40,21 @@ export const surfacesCustomizations: Components<Theme> = {
       }),
     },
   },
-  MuiAccordionDetails: {
+  JoyAccordionDetails: {
     styleOverrides: {
       root: { mb: 20, border: 'none' },
     },
   },
-  MuiPaper: {
-    defaultProps: {
-      elevation: 0,
-    },
-  },
-  MuiCard: {
+  JoyCard: {
     styleOverrides: {
-      root: ({ theme }) => {
+      root: ({ theme }: { theme: Theme }) => {
         return {
           padding: 16,
           gap: 16,
           transition: 'all 100ms ease',
           backgroundColor: gray[50],
-          borderRadius: (theme.vars || theme).shape.borderRadius,
-          border: `1px solid ${(theme.vars || theme).palette.divider}`,
+          borderRadius: theme.radius.sm,
+          border: `1px solid ${theme.palette.divider}`,
           boxShadow: 'none',
           ...theme.applyStyles('dark', {
             backgroundColor: gray[800],
@@ -74,11 +65,11 @@ export const surfacesCustomizations: Components<Theme> = {
                 variant: 'outlined',
               },
               style: {
-                border: `1px solid ${(theme.vars || theme).palette.divider}`,
+                border: `1px solid ${theme.palette.divider}`,
                 boxShadow: 'none',
                 background: 'hsl(0, 0%, 100%)',
                 ...theme.applyStyles('dark', {
-                  background: alpha(gray[900], 0.4),
+                  background: gray[900],
                 }),
               },
             },
@@ -87,7 +78,7 @@ export const surfacesCustomizations: Components<Theme> = {
       },
     },
   },
-  MuiCardContent: {
+  JoyCardContent: {
     styleOverrides: {
       root: {
         padding: 0,
@@ -95,18 +86,30 @@ export const surfacesCustomizations: Components<Theme> = {
       },
     },
   },
-  MuiCardHeader: {
+  JoyCardHeader: {
     styleOverrides: {
       root: {
         padding: 0,
       },
     },
   },
-  MuiCardActions: {
+  JoyCardActions: {
     styleOverrides: {
       root: {
         padding: 0,
       },
+    },
+  },
+  JoySheet: {
+    styleOverrides: {
+      root: ({ theme }: { theme: Theme }) => ({
+        padding: 4,
+        overflow: 'clip',
+        backgroundColor: theme.palette.background.surface,
+        border: '1px solid',
+        borderColor: theme.palette.divider,
+        borderRadius: theme.radius.sm,
+      }),
     },
   },
 };
