@@ -39,7 +39,6 @@ export default function ForgotPassword({ open, handleClose }: ForgotPasswordProp
             reset your password.
           </Typography>
           <Input
-            autoFocus
             required
             id="email"
             name="email"

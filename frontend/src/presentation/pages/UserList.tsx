@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
@@ -66,18 +66,18 @@ const UserList: React.FC = () => {
   const updateUserUseCase = new UpdateUser(userRepository);
   const deleteUserUseCase = new DeleteUser(userRepository);
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       const data = await listUsersUseCase.execute();
       setUsers(data);
     } catch (error) {
       console.error('Error fetching users:', error);
     }
-  };
+  }, [listUsersUseCase]);
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
 
   const handleOpenDialog = (user?: DomainUser) => {
     if (user) {
