@@ -1,5 +1,5 @@
-from app.domain.entities.user import User
-from app.tests.test_models import UserModel
+from app.domain.entities.user import User as UserEntity
+from app.models.user import User as UserModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
 
@@ -7,7 +7,7 @@ class TestUserRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create(self, user: User) -> User:
+    async def create(self, user: UserEntity) -> UserEntity:
         user_model = UserModel(
             id=user.id,
             email=user.email.lower(),

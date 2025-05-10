@@ -4,7 +4,6 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.pool import AsyncAdaptedQueuePool
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)
@@ -28,7 +27,10 @@ def get_database_url():
         database_url = database_url.replace("@localhost:", "@postgres:")
 
     # Converter a URL para async
-    if database_url.startswith("postgresql://"):
+    if "postgresql" in database_url:
+        database_url = database_url.replace(
+            "postgresql+psycopg2://", "postgresql+asyncpg://"
+        )
         database_url = database_url.replace("postgresql://", "postgresql+asyncpg://")
 
     logger.info(f"Database URL: {database_url}")
@@ -38,13 +40,9 @@ def get_database_url():
 # Obter a URL do banco de dados
 DATABASE_URL = get_database_url()
 
+# Create engine without specifying poolclass
 engine = create_async_engine(
     DATABASE_URL,
-    poolclass=AsyncAdaptedQueuePool,
-    pool_size=5,
-    max_overflow=10,
-    pool_timeout=30,
-    pool_recycle=1800,
     echo=True,  # Adiciona logs SQL
 )
 
