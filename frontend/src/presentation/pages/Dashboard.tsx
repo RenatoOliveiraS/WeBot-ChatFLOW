@@ -1,18 +1,8 @@
 import * as React from 'react';
-import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
-import Button from '@mui/joy/Button';
-import Breadcrumbs from '@mui/joy/Breadcrumbs';
-import Link from '@mui/joy/Link';
 import Typography from '@mui/joy/Typography';
 
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
-import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
-
 import Sidebar from './Sidebar';
-import OrderTable from '../../shared-theme/components/OrderTable';
-import OrderList from '../../shared-theme/components/OrderList';
 import Header from '../../shared-theme/components/Header';
 import AppTheme from '../../shared-theme/AppTheme';
 

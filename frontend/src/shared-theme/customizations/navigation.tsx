@@ -1,49 +1,43 @@
-import * as React from 'react';
-import { Theme, alpha, Components } from '@mui/material/styles';
-import { SvgIconProps } from '@mui/material/SvgIcon';
+import { Theme, Components } from '@mui/material/styles';
 import { buttonBaseClasses } from '@mui/material/ButtonBase';
 import { dividerClasses } from '@mui/material/Divider';
-import { menuItemClasses } from '@mui/material/MenuItem';
-import { selectClasses } from '@mui/material/Select';
-import { tabClasses } from '@mui/material/Tab';
-import UnfoldMoreRoundedIcon from '@mui/icons-material/UnfoldMoreRounded';
 import { gray, brand } from '../themePrimitives';
 
 export const navigationCustomizations: Components<Theme> = {
   MuiAppBar: {
     styleOverrides: {
-      root: ({ theme }) => ({
-        backgroundColor: theme.palette.background.paper,
-        color: theme.palette.text.primary,
+      root: ({ theme: _theme }) => ({
+        backgroundColor: _theme.palette.background.paper,
+        color: _theme.palette.text.primary,
         boxShadow: 'none',
-        borderBottom: `1px solid ${theme.palette.divider}`,
-        ...theme.applyStyles('dark', {
-          backgroundColor: theme.palette.background.paper,
+        borderBottom: `1px solid ${_theme.palette.divider}`,
+        ..._theme.applyStyles('dark', {
+          backgroundColor: _theme.palette.background.paper,
         }),
       }),
     },
   },
   MuiToolbar: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ theme: _theme }) => ({
         minHeight: '64px !important',
         padding: '0 24px',
-        ...theme.applyStyles('dark', {
-          backgroundColor: theme.palette.background.paper,
+        ..._theme.applyStyles('dark', {
+          backgroundColor: _theme.palette.background.paper,
         }),
       }),
     },
   },
   MuiDrawer: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ theme: _theme }) => ({
         '& .MuiDrawer-paper': {
           width: 240,
           boxSizing: 'border-box',
-          backgroundColor: theme.palette.background.paper,
-          borderRight: `1px solid ${theme.palette.divider}`,
-          ...theme.applyStyles('dark', {
-            backgroundColor: theme.palette.background.paper,
+          backgroundColor: _theme.palette.background.paper,
+          borderRight: `1px solid ${_theme.palette.divider}`,
+          ..._theme.applyStyles('dark', {
+            backgroundColor: _theme.palette.background.paper,
           }),
         },
       }),
@@ -114,7 +108,7 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiListItemText: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ _theme }) => ({
         margin: 0,
         '& .MuiTypography-root': {
           fontSize: '0.875rem',
@@ -329,7 +323,7 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiTabs: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ _theme }) => ({
         minHeight: 48,
         '& .MuiTabs-indicator': {
           height: 3,
@@ -340,7 +334,7 @@ export const navigationCustomizations: Components<Theme> = {
   },
   MuiTab: {
     styleOverrides: {
-      root: ({ theme }) => ({
+      root: ({ _theme }) => ({
         textTransform: 'none',
         minHeight: 48,
         padding: '12px 16px',

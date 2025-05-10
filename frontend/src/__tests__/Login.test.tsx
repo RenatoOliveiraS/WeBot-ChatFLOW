@@ -1,9 +1,7 @@
 // src/__tests__/Login.test.tsx
 import { screen, fireEvent, waitFor, act } from '@testing-library/react'
-import { I18nextProvider } from 'react-i18next'
 import i18n from '../i18n'
 import Login from '../presentation/pages/Login'
-import { LoginCredentials } from '../core/interfaces/dtos/LoginCredentials'
 import { User } from '../core/interfaces/User'
 import { render as customRender, mockAuthService } from './test-utils'
 

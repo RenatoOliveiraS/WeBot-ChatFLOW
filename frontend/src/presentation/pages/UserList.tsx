@@ -40,6 +40,9 @@ import { UpdateUser } from '../../core/use-cases/user/UpdateUser';
 import { DeleteUser } from '../../core/use-cases/user/DeleteUser';
 import { User as DomainUser, CreateUserDTO, UpdateUserDTO } from '../../core/domain/entities/User';
 
+// Primeiro, vamos definir o tipo para o statusFilter
+type StatusFilterType = 'all' | 'active' | 'inactive';
+
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<DomainUser[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
@@ -248,7 +251,7 @@ const UserList: React.FC = () => {
               <FormLabel>Status</FormLabel>
               <Select
                 value={statusFilter}
-                onChange={(_, value) => setStatusFilter(value as any)}
+                onChange={(_, value) => setStatusFilter(value as StatusFilterType)}
               >
                 <Option value="all">All</Option>
                 <Option value="active">Active</Option>

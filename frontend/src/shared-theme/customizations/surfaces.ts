@@ -1,15 +1,31 @@
 import { Theme } from '@mui/joy/styles';
 import { gray } from '../themePrimitives';
 
+type StyleOverrides = {
+  padding?: number;
+  gap?: number;
+  transition?: string;
+  backgroundColor?: string;
+  borderRadius?: string | number;
+  border?: string;
+  boxShadow?: string;
+  variants?: Array<{
+    props: { variant: string };
+    style: Record<string, unknown>;
+  }>;
+  overflow?: string;
+  borderColor?: string;
+};
+
 type JoyComponents = {
   JoyCard?: {
     styleOverrides?: {
-      root?: (props: { theme: Theme }) => any;
+      root?: (props: { theme: Theme }) => StyleOverrides;
     };
   };
   JoySheet?: {
     styleOverrides?: {
-      root?: (props: { theme: Theme }) => any;
+      root?: (props: { theme: Theme }) => StyleOverrides;
     };
   };
 };

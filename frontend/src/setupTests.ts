@@ -6,7 +6,7 @@ import i18n from './i18n';
 process.env.VITE_API_URL = 'http://localhost:8000';
 
 // Mock do TextEncoder e TextDecoder
-const { TextEncoder, TextDecoder } = require('util');
+
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 

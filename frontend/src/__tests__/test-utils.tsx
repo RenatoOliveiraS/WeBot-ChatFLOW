@@ -7,11 +7,11 @@ import i18n from '../i18n';
 import AppTheme from '../shared-theme/AppTheme';
 import { AuthProvider } from '../presentation/contexts/AuthContext';
 import { AuthService } from '../core/interfaces/services/AuthService';
-import { User } from '../core/domain/entities/User';
+import { User, LoginCredentials } from '../core/domain/entities/User';
 
 // Mock do serviço de autenticação
 const mockAuthService: jest.Mocked<AuthService> = {
-  login: jest.fn<Promise<User>, [any]>(),
+  login: jest.fn<Promise<User>, [LoginCredentials]>(),
   logout: jest.fn<Promise<void>, []>(),
   getCurrentUser: jest.fn<User | null, []>(() => null),
   isAuthenticated: jest.fn<boolean, []>(() => false),

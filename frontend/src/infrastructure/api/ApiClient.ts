@@ -53,34 +53,18 @@ export class ApiClient {
   }
 
   async get<T>(url: string): Promise<AxiosResponse<T>> {
-    try {
-      return await this.api.get<T>(url);
-    } catch (error) {
-      throw error;
-    }
+    return await this.api.get<T>(url);
   }
 
-  async post<T>(url: string, data: any): Promise<AxiosResponse<T>> {
-    try {
-      return await this.api.post<T>(url, data);
-    } catch (error) {
-      throw error;
-    }
+  async post<T, D = unknown>(url: string, data: D): Promise<AxiosResponse<T>> {
+    return await this.api.post<T>(url, data);
   }
 
-  async put<T>(url: string, data: any): Promise<AxiosResponse<T>> {
-    try {
-      return await this.api.put<T>(url, data);
-    } catch (error) {
-      throw error;
-    }
+  async put<T, D = unknown>(url: string, data: D): Promise<AxiosResponse<T>> {
+    return await this.api.put<T>(url, data);
   }
 
   async delete<T>(url: string): Promise<AxiosResponse<T>> {
-    try {
-      return await this.api.delete<T>(url);
-    } catch (error) {
-      throw error;
-    }
+    return await this.api.delete<T>(url);
   }
 } 

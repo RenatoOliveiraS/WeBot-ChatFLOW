@@ -32,18 +32,21 @@ export class AuthServiceImpl implements AuthService {
       
       this.setCurrentUser(user);
       return user;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Erro no login:', error);
-      if (error.response?.status === 401) {
-        throw new Error(i18n.t('login.authError.invalidCredentials'));
-      }
-      if (error.response?.data?.detail) {
-        const errorMessage = error.response.data.detail;
-        if (errorMessage.includes('inativo')) {
-          throw new Error(i18n.t('login.authError.inactiveUser'));
+      if (error instanceof Error) {
+        const axiosError = error as { response?: { status?: number; data?: { detail?: string } } };
+        if (axiosError.response?.status === 401) {
+          throw new Error(i18n.t('login.authError.invalidCredentials'));
         }
-        if (errorMessage.includes('não encontrado')) {
-          throw new Error(i18n.t('login.authError.userNotFound'));
+        if (axiosError.response?.data?.detail) {
+          const errorMessage = axiosError.response.data.detail;
+          if (errorMessage.includes('inativo')) {
+            throw new Error(i18n.t('login.authError.inactiveUser'));
+          }
+          if (errorMessage.includes('não encontrado')) {
+            throw new Error(i18n.t('login.authError.userNotFound'));
+          }
         }
       }
       throw new Error(i18n.t('login.authError.serverError'));

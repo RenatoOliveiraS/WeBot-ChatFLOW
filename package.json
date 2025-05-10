@@ -5,5 +5,9 @@
         "docker:logs": "docker-compose logs -f",
         "docker:restart": "npm run docker:down && npm run docker:up",
         "docker:migrate": "docker-compose exec backend alembic upgrade head"
+    },
+    "devDependencies": {
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "typescript": "^5.5.4"
     }
 }

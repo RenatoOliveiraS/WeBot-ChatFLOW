@@ -41,4 +41,4 @@
     "import/prefer-default-export": "off"
   },
   "ignorePatterns": ["node_modules/**", "dist/**", "*.js", "*.cjs", "*.mjs"]
-}
+} 
