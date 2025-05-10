@@ -41,7 +41,7 @@ jobs:
       with:
         directory: ./backend
         fail_ci_if_error: true
-        files: ./coverage.xml
+        files: ./backend/coverage.xml
         flags: unittests
         name: codecov-umbrella
         verbose: true
