@@ -1,8 +1,8 @@
-import { Theme } from '@mui/joy/styles';
+import { Theme, Components } from '@mui/joy/styles';
 import { gray } from '../themePrimitives';
 
 type StyleOverrides = {
-  padding?: number;
+  padding?: number | string;
   gap?: number;
   transition?: string;
   backgroundColor?: string;
@@ -20,54 +20,52 @@ type StyleOverrides = {
 type JoyComponents = {
   JoyCard?: {
     styleOverrides?: {
-      root?: (props: { theme: Theme }) => StyleOverrides;
+      root?: (props: { theme: Theme }) => Partial<StyleOverrides>;
     };
   };
   JoySheet?: {
     styleOverrides?: {
-      root?: (props: { theme: Theme }) => StyleOverrides;
+      root?: (props: { theme: Theme }) => Partial<StyleOverrides>;
     };
   };
 };
 
-export const surfacesCustomizations: JoyComponents = {
+export const surfacesCustomizations: Components<Theme> = {
   JoyCard: {
     styleOverrides: {
-      root: ({ theme }: { theme: Theme }) => {
-        return {
-          padding: 16,
-          gap: 16,
-          transition: 'all 100ms ease',
-          backgroundColor: gray[50],
-          borderRadius: theme.radius.sm,
-          border: `1px solid ${theme.palette.divider}`,
-          boxShadow: 'none',
-          ...theme.applyStyles('dark', {
-            backgroundColor: gray[800],
-          }),
-          variants: [
-            {
-              props: {
-                variant: 'outlined',
-              },
-              style: {
-                border: `1px solid ${theme.palette.divider}`,
-                boxShadow: 'none',
-                background: 'hsl(0, 0%, 100%)',
-                ...theme.applyStyles('dark', {
-                  background: gray[900],
-                }),
-              },
+      root: ({ theme }) => ({
+        padding: '16px',
+        gap: 16,
+        transition: 'all 100ms ease',
+        backgroundColor: gray[50],
+        borderRadius: theme.radius.sm,
+        border: `1px solid ${theme.palette.divider}`,
+        boxShadow: 'none',
+        ...theme.applyStyles('dark', {
+          backgroundColor: gray[800],
+        }),
+        variants: [
+          {
+            props: {
+              variant: 'outlined',
             },
-          ],
-        };
-      },
+            style: {
+              border: `1px solid ${theme.palette.divider}`,
+              boxShadow: 'none',
+              background: 'hsl(0, 0%, 100%)',
+              ...theme.applyStyles('dark', {
+                background: gray[900],
+              }),
+            },
+          },
+        ],
+      }),
     },
   },
   JoySheet: {
     styleOverrides: {
-      root: ({ theme }: { theme: Theme }) => ({
-        padding: 4,
+      root: ({ theme }) => ({
+        padding: '4px',
         overflow: 'clip',
         backgroundColor: theme.palette.background.surface,
         border: '1px solid',

@@ -1,6 +1,7 @@
-import { Theme, Components } from '@mui/material/styles';
-import { buttonBaseClasses } from '@mui/material/ButtonBase';
-import { dividerClasses } from '@mui/material/Divider';
+import { Theme, Components } from '@mui/joy/styles';
+import { alpha } from '@mui/system';
+import { buttonBaseClasses } from '@mui/joy/ButtonBase';
+import { dividerClasses } from '@mui/joy/Divider';
 import { gray, brand } from '../themePrimitives';
 
 export const navigationCustomizations: Components<Theme> = {
@@ -70,27 +71,10 @@ export const navigationCustomizations: Components<Theme> = {
   MuiListItemButton: {
     styleOverrides: {
       root: ({ theme }) => ({
-        borderRadius: theme.shape.borderRadius,
-        padding: '8px 16px',
-        '&:hover': {
-          backgroundColor: theme.palette.action.hover,
-        },
-        '&.Mui-selected': {
-          backgroundColor: theme.palette.action.selected,
-          '&:hover': {
-            backgroundColor: theme.palette.action.selected,
-          },
-        },
+        minWidth: '40px',
+        color: theme.palette.text.secondary,
         ...theme.applyStyles('dark', {
-          '&:hover': {
-            backgroundColor: theme.palette.action.hover,
-          },
-          '&.Mui-selected': {
-            backgroundColor: theme.palette.action.selected,
-            '&:hover': {
-              backgroundColor: theme.palette.action.selected,
-            },
-          },
+          color: theme.palette.text.secondary,
         }),
       }),
     },
