@@ -3,14 +3,9 @@ from datetime import datetime
 
 import pytest
 from app.domain.entities.user import User
-from app.infrastructure.models.user import Base
-from app.infrastructure.repositories.postgres_user_repository import (
-    PostgresUserRepository,
-)
-from app.use_cases.auth.authenticate_user import AuthenticateUser
+from app.tests.test_config import Base, TestSessionLocal, test_engine
+from app.tests.test_repository import TestUserRepository
 from passlib.context import CryptContext
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -18,46 +13,23 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 @pytest.fixture(scope="session")
 async def engine():
     """Creates an SQLAlchemy engine with in-memory database."""
-    engine = create_async_engine(
-        "sqlite+aiosqlite:///:memory:", echo=False, future=True
-    )
-    async with engine.begin() as conn:
+    async with test_engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    yield engine
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-    await engine.dispose()
+    yield test_engine
+    await test_engine.dispose()
 
 
 @pytest.fixture
-def async_session_maker(engine):
-    """Creates a session factory."""
-    return sessionmaker(
-        engine,
-        class_=AsyncSession,
-        expire_on_commit=False,
-        autocommit=False,
-        autoflush=False,
-    )
-
-
-@pytest.fixture
-async def db_session(async_session_maker):
+async def db_session(engine):
     """Creates a new database session for a test."""
-    async with async_session_maker() as session:
+    async with TestSessionLocal() as session:
         yield session
 
 
 @pytest.fixture
-async def user_repository(db_session):
+def user_repository(db_session):
     """Creates a user repository instance."""
-    return PostgresUserRepository(db_session)
-
-
-@pytest.fixture
-async def authenticate_user(user_repository):
-    """Creates an authentication use case instance."""
-    return AuthenticateUser(user_repository, "test_secret_key")
+    return TestUserRepository(db_session)
 
 
 @pytest.fixture
@@ -74,3 +46,12 @@ def sample_user():
         created_at=datetime.utcnow(),
         updated_at=datetime.utcnow(),
     )
+
+
+@pytest.mark.asyncio
+async def test_database_connection(db_session):
+    """Teste básico de conexão com o banco de dados."""
+    from sqlalchemy import text
+
+    result = await db_session.execute(text("SELECT 1"))
+    assert result.scalar() == 1
