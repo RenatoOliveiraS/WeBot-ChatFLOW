@@ -2,9 +2,10 @@ import logging
 from datetime import datetime, timedelta
 
 import jwt
+from passlib.context import CryptContext
+
 from app.domain.dtos.auth import LoginRequest
 from app.domain.repositories.user_repository import IUserRepository
-from passlib.context import CryptContext
 
 logger = logging.getLogger(__name__)
 

@@ -1,6 +1,7 @@
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.domain.entities.user import User as UserEntity
 from app.models.user import User as UserModel
-from sqlalchemy.ext.asyncio import AsyncSession
 
 
 class TestUserRepository:

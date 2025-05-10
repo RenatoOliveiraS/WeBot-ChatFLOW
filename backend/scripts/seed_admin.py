@@ -3,13 +3,13 @@ import os
 import sys
 
 import bcrypt
+from dotenv import load_dotenv
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 # Import the SQLAlchemy models and configuration
 from app.config.database import get_database_url
 from app.infrastructure.models.user import UserModel as User
-from dotenv import load_dotenv
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)

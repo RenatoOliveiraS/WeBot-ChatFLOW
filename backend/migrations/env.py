@@ -4,12 +4,12 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
+from dotenv import load_dotenv
+from sqlalchemy import engine_from_config, pool
 
 # Import the SQLAlchemy models and configuration
 from app.config.database import DATABASE_URL
 from app.models.user import Base
-from dotenv import load_dotenv
-from sqlalchemy import engine_from_config, pool
 
 # Configurar logging
 logging.basicConfig(level=logging.INFO)

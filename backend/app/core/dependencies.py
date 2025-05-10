@@ -1,17 +1,18 @@
 import os
 from typing import Annotated
 
+from dotenv import load_dotenv
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
+from jose import JWTError, jwt
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.config.database import get_db
 from app.domain.entities.user import User
 from app.domain.repositories.user_repository import IUserRepository
 from app.infrastructure.repositories.postgres_user_repository import (
     PostgresUserRepository,
 )
-from dotenv import load_dotenv
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
-from sqlalchemy.ext.asyncio import AsyncSession
 
 # Carregar variáveis de ambiente
 load_dotenv()

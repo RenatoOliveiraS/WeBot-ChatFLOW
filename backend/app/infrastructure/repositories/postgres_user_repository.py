@@ -2,12 +2,13 @@ import logging
 from datetime import datetime
 from typing import List, Optional
 
-from app.domain.entities.user import User
-from app.domain.repositories.user_repository import IUserRepository
-from app.infrastructure.models.user import UserModel
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.domain.entities.user import User
+from app.domain.repositories.user_repository import IUserRepository
+from app.infrastructure.models.user import UserModel
 
 logger = logging.getLogger(__name__)
 

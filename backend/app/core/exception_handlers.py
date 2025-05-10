@@ -1,3 +1,6 @@
+from fastapi import Request, status
+from fastapi.responses import JSONResponse
+
 from app.core.exceptions import (
     AuthenticationError,
     BusinessError,
@@ -6,8 +9,6 @@ from app.core.exceptions import (
     UnauthorizedError,
     ValidationError,
 )
-from fastapi import Request, status
-from fastapi.responses import JSONResponse
 
 
 async def authentication_exception_handler(request: Request, exc: AuthenticationError):
