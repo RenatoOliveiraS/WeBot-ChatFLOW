@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 import Box from '@mui/joy/Box';
@@ -45,6 +45,8 @@ type StatusFilterType = 'all' | 'active' | 'inactive';
 
 const UserList: React.FC = () => {
   const [users, setUsers] = useState<DomainUser[]>([]);
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<StatusFilterType>('all');
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedUser, setSelectedUser] = useState<DomainUser | null>(null);
   const [formData, setFormData] = useState<{
@@ -56,15 +58,13 @@ const UserList: React.FC = () => {
     email: '',
     password: '',
   });
-  const [search, setSearch] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
 
-  const apiClient = new ApiClient();
-  const userRepository = new UserRepositoryImpl(apiClient);
-  const listUsersUseCase = new ListUsers(userRepository);
-  const createUserUseCase = new CreateUser(userRepository);
-  const updateUserUseCase = new UpdateUser(userRepository);
-  const deleteUserUseCase = new DeleteUser(userRepository);
+  const apiClient = useMemo(() => new ApiClient(), []);
+  const userRepository = useMemo(() => new UserRepositoryImpl(apiClient), [apiClient]);
+  const listUsersUseCase = useMemo(() => new ListUsers(userRepository), [userRepository]);
+  const createUserUseCase = useMemo(() => new CreateUser(userRepository), [userRepository]);
+  const updateUserUseCase = useMemo(() => new UpdateUser(userRepository), [userRepository]);
+  const deleteUserUseCase = useMemo(() => new DeleteUser(userRepository), [userRepository]);
 
   const fetchUsers = useCallback(async () => {
     try {
