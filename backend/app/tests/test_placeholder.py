@@ -1,3 +1,3 @@
 def test_placeholder():
-    # só para o CI passar enquanto você escreve testes de verdade
+    """Teste placeholder para garantir que o pytest está funcionando."""
     assert True
