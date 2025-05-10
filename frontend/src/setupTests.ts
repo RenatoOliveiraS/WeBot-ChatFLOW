@@ -6,9 +6,26 @@ import i18n from './i18n';
 process.env.VITE_API_URL = 'http://localhost:8000';
 
 // Mock do TextEncoder e TextDecoder
+class MockTextEncoder {
+  encode(input: string): Uint8Array {
+    const arr = new Uint8Array(input.length);
+    for (let i = 0; i < input.length; i++) {
+      arr[i] = input.charCodeAt(i);
+    }
+    return arr;
+  }
+}
 
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
+class MockTextDecoder {
+  decode(input?: BufferSource): string {
+    if (!input) return '';
+    const arr = input instanceof Uint8Array ? input : new Uint8Array(input as ArrayBuffer);
+    return String.fromCharCode.apply(null, Array.from(arr));
+  }
+}
+
+global.TextEncoder = MockTextEncoder as any;
+global.TextDecoder = MockTextDecoder as any;
 
 // Mock do localStorage
 const localStorageMock = {
