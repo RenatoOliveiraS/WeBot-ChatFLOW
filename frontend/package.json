@@ -14,11 +14,12 @@
     "test:ci": "node --experimental-vm-modules node_modules/jest/bin/jest.js --ci --coverage"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^5.15.10",
     "@mui/joy": "^5.0.0-beta.52",
-    "@mui/material": "^5.15.10",
+    "@mui/material": "^5.17.1",
+    "@mui/system": "^7.1.0",
     "axios": "^1.6.7",
     "i18next": "^23.8.2",
     "react": "^18.2.0",
