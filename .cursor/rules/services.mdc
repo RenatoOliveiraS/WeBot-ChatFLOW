@@ -1,0 +1,24 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Services
+
+## Frontend Services
+- [frontend/src/services/AuthService.ts](mdc:frontend/src/services/AuthService.ts) - Authentication service for login/logout
+- [frontend/src/services/UserService.ts](mdc:frontend/src/services/UserService.ts) - User management service
+
+## Backend Services
+- [backend/app/services/auth_service.py](mdc:backend/app/services/auth_service.py) - Backend authentication service
+- [backend/app/services/user_service.py](mdc:backend/app/services/user_service.py) - Backend user management service
+
+## API Endpoints
+- `/auth/login` - User authentication
+- `/auth/me` - Get current user info
+- `/users` - User management endpoints
+  - GET - List users
+  - POST - Create user
+  - PUT - Update user
+  - DELETE - Delete user
+

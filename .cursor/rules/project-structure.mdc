@@ -1,0 +1,33 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Structure
+
+This is a full-stack application with separate frontend and backend directories.
+
+## Frontend Structure
+- `frontend/src/` - Main source code directory
+  - `presentation/` - React components and pages
+    - `pages/` - Main page components
+    - `components/` - Reusable UI components
+    - `contexts/` - React context providers
+    - `routes/` - Application routing configuration
+  - `services/` - API service classes
+  - `i18n/` - Internationalization files
+  - `shared-theme/` - Theme configuration and components
+
+## Backend Structure
+- `backend/app/` - Main application code
+  - `api/` - API endpoints and controllers
+  - `core/` - Core business logic
+  - `models/` - Database models
+  - `services/` - Business services
+  - `utils/` - Utility functions
+
+## Key Files
+- [frontend/src/presentation/routes/index.tsx](mdc:frontend/src/presentation/routes/index.tsx) - Main routing configuration
+- [frontend/src/presentation/pages/Sidebar.tsx](mdc:frontend/src/presentation/pages/Sidebar.tsx) - Main navigation sidebar
+- [frontend/src/services/AuthService.ts](mdc:frontend/src/services/AuthService.ts) - Authentication service
+

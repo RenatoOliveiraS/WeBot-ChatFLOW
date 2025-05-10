@@ -1,0 +1,30 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Internationalization (i18n)
+
+The application supports multiple languages through i18next.
+
+## Translation Files
+- [frontend/src/i18n/locales/en/translation.json](mdc:frontend/src/i18n/locales/en/translation.json) - English translations
+- [frontend/src/i18n/locales/pt/translation.json](mdc:frontend/src/i18n/locales/pt/translation.json) - Portuguese translations
+
+## Language Context
+- [frontend/src/presentation/contexts/LanguageContext.tsx](mdc:frontend/src/presentation/contexts/LanguageContext.tsx) - Language context provider
+
+## Usage
+```typescript
+import { useTranslation } from 'react-i18next';
+
+function MyComponent() {
+  const { t } = useTranslation();
+  return <div>{t('some.translation.key')}</div>;
+}
+```
+
+## Available Languages
+- English (en)
+- Portuguese (pt)
+
