@@ -30,6 +30,7 @@ import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import BrightnessAutoRoundedIcon from '@mui/icons-material/BrightnessAutoRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ListAltRoundedIcon from '@mui/icons-material/ListAltRounded';
+import { useNavigate } from 'react-router-dom';
 
 import ColorSchemeToggle from '../../shared-theme/components/ColorSchemeToggle';
 import { closeSidebar } from '../../shared-theme/components/utils';
@@ -82,10 +83,16 @@ function getCurrentUser() {
 
 export default function Sidebar() {
   const user = getCurrentUser();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     window.location.href = '/login';
+  };
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -175,7 +182,7 @@ export default function Sidebar() {
           </ListItem>
 
           <ListItem>
-            <ListItemButton>
+            <ListItemButton onClick={() => handleNavigation('/dashboard')}>
               <DashboardRoundedIcon />
               <ListItemContent>
                 <Typography level="title-sm">Dashboard</Typography>
@@ -198,7 +205,7 @@ export default function Sidebar() {
                             transform: 'rotate(180deg)',
                           }
                         : {
-                            transform: 'none',
+                            transform: 'rotate(0deg)',
                           },
                     ]}
                   />
@@ -206,8 +213,8 @@ export default function Sidebar() {
               )}
             >
               <List sx={{ gap: 0.5 }}>
-                <ListItem sx={{ mt: 0.5 }}>
-                  <ListItemButton>
+                <ListItem>
+                  <ListItemButton onClick={() => handleNavigation('/users')}>
                     <ListAltRoundedIcon />
                     <ListItemContent>
                       <Typography level="title-sm">List Users</Typography>

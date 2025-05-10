@@ -43,7 +43,8 @@ def create_admin_user():
 
     # Criar conexão com o banco de dados
     database_url = get_database_url()
-    engine = create_engine(database_url)
+    sync_database_url = database_url.replace("asyncpg", "psycopg2")
+    engine = create_engine(sync_database_url)
     Session = sessionmaker(bind=engine)
     session = Session()
 
