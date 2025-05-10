@@ -6,6 +6,16 @@ import i18n from './i18n';
 process.env.VITE_API_URL = 'http://localhost:8000';
 
 // Mock do TextEncoder e TextDecoder
+interface TextEncoderConstructor {
+  new(): TextEncoder;
+  prototype: TextEncoder;
+}
+
+interface TextDecoderConstructor {
+  new(label?: string, options?: TextDecoderOptions): TextDecoder;
+  prototype: TextDecoder;
+}
+
 class MockTextEncoder {
   encode(input: string): Uint8Array {
     const arr = new Uint8Array(input.length);
@@ -24,8 +34,8 @@ class MockTextDecoder {
   }
 }
 
-global.TextEncoder = MockTextEncoder as any;
-global.TextDecoder = MockTextDecoder as any;
+global.TextEncoder = MockTextEncoder as unknown as TextEncoderConstructor;
+global.TextDecoder = MockTextDecoder as unknown as TextDecoderConstructor;
 
 // Mock do localStorage
 const localStorageMock = {
