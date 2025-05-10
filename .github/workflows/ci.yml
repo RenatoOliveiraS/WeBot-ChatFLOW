@@ -90,13 +90,22 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push
+    - name: Build and push backend
       uses: docker/build-push-action@v4
       with:
-        context: .
+        context: ./backend
+        file: ./backend/Dockerfile
         push: true
-        tags: |
-          ${{ secrets.DOCKERHUB_USERNAME }}/webot-backend:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/webot-frontend:latest
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/webot-backend:latest
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/webot-backend:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/webot-backend:buildcache,mode=max
+
+    - name: Build and push frontend
+      uses: docker/build-push-action@v4
+      with:
+        context: ./frontend
+        file: ./frontend/Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/webot-frontend:latest
+        cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/webot-frontend:buildcache
+        cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/webot-frontend:buildcache,mode=max
