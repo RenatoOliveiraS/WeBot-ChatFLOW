@@ -38,16 +38,11 @@ services:
       - ./backend:/app
       - /app/__pycache__
       - /app/.pytest_cache
-
+      
   frontend:
     build:
-<<<<<<< HEAD
-      context: .
-      dockerfile: frontend/Dockerfile
-=======
       context: ./frontend
       dockerfile: Dockerfile
->>>>>>> cb496f6 (alterações)
     image: webot-frontend:dev
     env_file:
       - ./.env
