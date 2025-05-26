@@ -9,6 +9,8 @@ __pycache__/
 node_modules/
 dist/
 
+.dev.db
+dev.db
 # Docker
 *.log
 docker-compose.override.yml

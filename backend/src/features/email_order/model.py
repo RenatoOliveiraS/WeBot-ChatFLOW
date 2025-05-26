@@ -1,3 +1,5 @@
+# src/features/email_order/model.py
+
 from datetime import datetime
 from enum import Enum
 from typing import Optional
