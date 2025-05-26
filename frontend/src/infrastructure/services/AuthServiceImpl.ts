@@ -19,14 +19,14 @@ export class AuthServiceImpl implements AuthService {
     try {
       const response = await this.userRepository.authenticate(credentials);
       const user: User = {
-        id: response.id,
-        email: response.email,
-        name: response.name,
+        id: response.id || '',
+        email: response.email || credentials.email,
+        name: response.name || '',
         photo: response.photo,
-        roles: response.roles,
-        is_active: response.is_active,
-        created_at: response.created_at,
-        updated_at: response.updated_at,
+        roles: response.roles || [],
+        is_active: response.is_active ?? true,
+        created_at: response.created_at || '',
+        updated_at: response.updated_at || '',
         token: response.access_token
       };
       

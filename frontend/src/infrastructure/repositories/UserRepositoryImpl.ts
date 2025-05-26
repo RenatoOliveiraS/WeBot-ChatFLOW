@@ -6,7 +6,16 @@ export class UserRepositoryImpl implements UserRepository {
   constructor(private api: ApiClient) {}
 
   async authenticate(credentials: LoginCredentials): Promise<LoginResponse> {
-    const response = await this.api.post<LoginResponse>('/api/v1/auth/login', credentials);
+    const params = new URLSearchParams();
+    params.append('username', credentials.email);
+    params.append('password', credentials.password);
+    const response = await this.api.post<LoginResponse>(
+      '/auth/login',
+      params,
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      }
+    );
     return response.data;
   }
 

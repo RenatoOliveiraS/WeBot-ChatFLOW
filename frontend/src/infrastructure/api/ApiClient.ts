@@ -56,8 +56,8 @@ export class ApiClient {
     return await this.api.get<T>(url);
   }
 
-  async post<T, D = unknown>(url: string, data: D): Promise<AxiosResponse<T>> {
-    return await this.api.post<T>(url, data);
+  async post<T, D = unknown>(url: string, data: D, config?: any): Promise<AxiosResponse<T>> {
+    return await this.api.post<T>(url, data, config);
   }
 
   async put<T, D = unknown>(url: string, data: D): Promise<AxiosResponse<T>> {

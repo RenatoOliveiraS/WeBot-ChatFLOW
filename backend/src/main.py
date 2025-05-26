@@ -9,7 +9,7 @@ from fastapi import HTTPException
 from fastapi.responses import FileResponse
 import os
 import mimetypes
-
+from fastapi.middleware.cors import CORSMiddleware
 
 
 
@@ -61,6 +61,15 @@ def get_app() -> FastAPI:
 
     app = FastAPI()
 
+    # Configuração do CORS: pega a origem do frontend da variável de ambiente VITE_FRONTEND_URL (ou usa um valor padrão)
+    frontend_url = os.getenv("VITE_FRONTEND_URL", "http://localhost:5173")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[frontend_url],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     @app.get("/attachments/{safe_id}/{filename}")
     def serve_attachment(safe_id: str, filename: str):
