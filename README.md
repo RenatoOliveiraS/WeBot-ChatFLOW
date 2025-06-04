@@ -260,3 +260,4 @@ O sistema é configurado para:
 4. Iniciar a aplicação
 
 Tudo isso acontece automaticamente ao executar `docker-compose up --build`.  
+o chatgpt esteve aqui 2025-06-04 12:21:22 UTC
