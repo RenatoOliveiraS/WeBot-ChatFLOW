@@ -286,13 +286,14 @@ Criar um campo adicional (ex.: `wb_id` ou `wb_uuid`) com formato fixo e prefixo 
 ### 4.2 Outbound (Resposta)
 Ao retornar resposta ao e-mail original:
 ```text
--------------responder esse e-mail acima dessa mensagem ------------------
-UUID: WB00000123
+=-=-=-= Para responder por e-mail, escreva acima dessa linha =-=-=-= 
+
 
 INFORMAÇÕES DO EMAIL
-(UUID: WB00000123)
 
--------------responder esse e-mail abaixo dessa mensagem ------------------
+
+[UUID: WB00000123]
+=_=_=_= Para responder por e-mail, escreva abaixo dessa linha =_=_=_= 
 ````
 
 1. O backend recupera o `inbound_email` correspondente a `WB00000123`.
@@ -342,13 +343,14 @@ Breve descrição do propósito do documento e contexto geral (inbound/outbound)
 
 ## 4. Exemplo de Corpo de E-mail com Marcadores
 ```text
--------------responder esse e-mail acima dessa mensagem ------------------
-UUID: WB00000123
+=-=-=-= Para responder por e-mail, escreva acima dessa linha =-=-=-= 
+
 
 INFORMAÇÕES DO EMAIL
-UUID: WB00000123
 
--------------responder esse e-mail abaixo dessa mensagem ------------------
+
+[UUID: WB00000123]
+=_=_=_= Para responder por e-mail, escreva abaixo dessa linha =_=_=_= 
 ````
 
 * Linha 1: marcador inicial para contextualizar instruções.
